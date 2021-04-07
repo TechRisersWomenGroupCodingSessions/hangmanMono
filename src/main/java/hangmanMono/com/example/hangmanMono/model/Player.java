@@ -1,4 +1,4 @@
-package hangmanMono.com.example.hangmanMono.api;
+package hangmanMono.com.example.hangmanMono.model;
 
 import javax.persistence.*;
 
@@ -17,4 +17,20 @@ public class Player {
     )
     private String name;
     private Long id;
+
+    public Player(){
+
+    }
+
+    public Player(String name){
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Long getId() {
+        return id;
+    }
 }
