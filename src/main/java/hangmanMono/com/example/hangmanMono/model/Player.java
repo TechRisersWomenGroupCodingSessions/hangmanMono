@@ -15,20 +15,13 @@ public class Player {
             strategy = GenerationType.SEQUENCE,
             generator = "player_sequence"
     )
-    private String name;
     private Long id;
+    private String name;
 
-    public Player(){
-
-    }
+    public Player(){ }
 
     public Player(String name){
         this.name = name;
-    }
-
-    public Player(Long id, String name){
-        this.name = name;
-        this.id = id;
     }
 
     public String getName() {
