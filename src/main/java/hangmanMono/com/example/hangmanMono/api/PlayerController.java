@@ -23,9 +23,9 @@ public class PlayerController {
     }
 
     @PostMapping
-    public UUID getID() {
+    public Player createPlayer(Player player) {
         // the application is running on http://localhost:8080/api/v1/player
-        return UUID.randomUUID();
+        return playerService.createPlayer(player);
     }
 
     @GetMapping

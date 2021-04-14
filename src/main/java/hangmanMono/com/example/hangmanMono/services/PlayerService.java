@@ -21,5 +21,12 @@ public class PlayerService {
         return playerRepository.findAll();
     }
 
+    public Player createPlayer(Player player){
+        playerRepository.save(player);
+        return player;
+    }
+
+
+
 
 }
