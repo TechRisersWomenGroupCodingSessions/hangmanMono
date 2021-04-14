@@ -22,11 +22,7 @@ public class PlayerService {
     }
 
     public Player createPlayer(Player player){
-        playerRepository.save(player);
-        return player;
+        Player createdPlayer = playerRepository.save(player);
+        return createdPlayer;
     }
-
-
-
-
 }
