@@ -24,7 +24,7 @@ public class PlayerControllerTest {
     private PlayerController playerController;
 
     @Test
-    void createPlayer() throws Exception {
+    void checkIfPlayerWasCreated() throws Exception {
         Player player = new Player("Bob");
         assertThat(this.restTemplate
                 .postForEntity("http://localhost:" + port + "/api/v1/player", player, Player.class)
@@ -33,11 +33,10 @@ public class PlayerControllerTest {
     }
 
     @Test
-    void getPlayerName() throws Exception {
+    void checkPlayerName() throws Exception {
         Player player = new Player("Bob");
-        Player savedPlayer = playerController.createPlayer(new Player("Bob"));
 
-        System.out.println("hereee " + this.restTemplate.postForObject("http://localhost:" + port + "/api/v1/player", savedPlayer, Player.class).getName());
-        System.out.println("hereee " + this.restTemplate.postForObject("http://localhost:" + port + "/api/v1/player", savedPlayer, Player.class).getId());
+        assertThat(this.restTemplate.postForObject("http://localhost:" + port + "/api/v1/player", player, Player.class).getName().equals("Bob"));
+//        System.out.println("hereee " + this.restTemplate.postForObject("http://localhost:" + port + "/api/v1/player", player, Player.class).getId());
     }
 }
