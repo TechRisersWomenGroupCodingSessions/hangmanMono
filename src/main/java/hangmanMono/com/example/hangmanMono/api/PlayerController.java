@@ -22,7 +22,7 @@ public class PlayerController {
     }
 
     @PostMapping
-    public Player createPlayer(Player player) {
+    public Player createPlayer(@RequestBody Player player) {
         // the application is running on http://localhost:8080/api/v1/player
         return playerService.createPlayer(player);
     }

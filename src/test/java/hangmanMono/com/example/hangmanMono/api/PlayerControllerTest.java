@@ -20,6 +20,9 @@ public class PlayerControllerTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
+    @Autowired
+    private PlayerController playerController;
+
     @Test
     void createPlayer() throws Exception {
         Player player = new Player("Bob");
@@ -32,6 +35,9 @@ public class PlayerControllerTest {
     @Test
     void getPlayerName() throws Exception {
         Player player = new Player("Bob");
-        System.out.println("hereee" + this.restTemplate.postForObject("http://localhost:" + port + "/api/v1/player", player, Player.class).getName());
+        Player savedPlayer = playerController.createPlayer(new Player("Bob"));
+
+        System.out.println("hereee " + this.restTemplate.postForObject("http://localhost:" + port + "/api/v1/player", savedPlayer, Player.class).getName());
+        System.out.println("hereee " + this.restTemplate.postForObject("http://localhost:" + port + "/api/v1/player", savedPlayer, Player.class).getId());
     }
 }
