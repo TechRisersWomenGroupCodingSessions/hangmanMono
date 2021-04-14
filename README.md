@@ -9,6 +9,7 @@ https://www.youtube.com/watch?v=RfCWg5ay5B0&t=300s
 `mvn spring-boot:run`
 
 **The application is running on** http://localhost:8080/hello
+
 **Postgres Admin** http://127.0.0.1:60390/browser/
 
 **API Design**
