@@ -21,11 +21,13 @@ https://www.youtube.com/watch?v=RfCWg5ay5B0&t=300s
 - POST /guess 
 
 **TODOs**
-- Return name & id to client
-- Dynamically add name & id to database (i.e. from the name field)
+- Create a welcome page for the game
+- Create a new page for playing the game
 
 **DONE**
 - Create model for player's name & id
 - Save name & id in Database 
+- Return name & id to client
+- Dynamically add name & id to database (i.e. from the name field)
 
 
