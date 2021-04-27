@@ -8,13 +8,33 @@ https://www.youtube.com/watch?v=RfCWg5ay5B0&t=300s
 
 `mvn spring-boot:run`
 
-**The application is running on** http://localhost:8080/hello
+**Ignore file locally only**
+
+`git update-index --skip-worktree [<PATH TO FILE>...]`
+
+**The application is running on** http://localhost:8080/api/v1/
 
 **Postgres Admin** http://127.0.0.1:60390/browser/
 
 **API Design**
 
-- POST /name (returns id of the user)
+- POST /player (returns id of the user)
+
+
+Example Request
+```
+POST /player
+
+Body (JSON): {"name": "amy"}
+```
+
+Example Response
+```
+{
+"name": "amy",
+"id", 1
+}
+```
 
 - GET /random (get a random word)
 
