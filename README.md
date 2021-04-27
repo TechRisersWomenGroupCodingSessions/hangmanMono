@@ -32,7 +32,7 @@ Example Response
 ```
 {
 "name": "amy",
-"id", 1
+"id": 1
 }
 ```
 
