@@ -1,42 +1,46 @@
 package hangmanMono.com.example.hangmanMono.services;
 
+import hangmanMono.com.example.hangmanMono.model.Hangman;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeMap;
 
+@Service
 public class GameService {
-    private final String secretWord;
-    private boolean isInProgress;
+
+    private final Hangman hangman;
+
+//    private final String secretWord;
+//    private boolean isInProgress;
     private TreeMap<String, String> guesses;
-    private int guessesInTotal;
+//    private int guessesInTotal;
     private boolean gameIsWon;
-    private int correctGuesses;
+//    private int correctGuesses;
     private int incorrectGuesses;
 
-    public GameService(String secretWord) {
-
-        this.secretWord = secretWord.toUpperCase();
-        this.isInProgress = true;
+    @Autowired
+    public GameService(String secretWord, Hangman hangman) {
+//        this.secretWord = secretWord.toUpperCase();
+//        this.isInProgress = true;
         this.guesses = new TreeMap<>();
-        this.guessesInTotal = 10;
+//        this.guessesInTotal = 10;
         this.gameIsWon = false;
-        this.correctGuesses = 0;
+//        this.correctGuesses = 0;
         this.incorrectGuesses = 0;
+        this.hangman = hangman;
     }
 
-    public String getSecretWord() {
-        return secretWord;
-    }
-
-
-    public boolean isGameInProgress() {
-        return isInProgress;
-    }
+//    public boolean isGameInProgress() {
+//        return isInProgress;
+//    }
 
     public String guess(String letter) {
         String upperCaseLetter = letter.toUpperCase();
 
-        this.guessesInTotal--;
+        this.hangman.setNumberOfGuesses(this.hangman.getNumberOfGuesses()-1);
         if (guesses.containsKey(upperCaseLetter)) {
             this.incorrectGuesses++;
             return "duplicate";
@@ -51,9 +55,9 @@ public class GameService {
             guesses.put(upperCaseLetter, "incorrect");
         }
 
-        if(!isGameWon() && guessesInTotal == 0){
+        if(!isGameWon() && this.hangman.getNumberOfGuesses() == 0){
             gameIsWon = false;
-            isInProgress = false;
+            hangman.setInProgress(false);
         }
 
         return "Invalid";
@@ -64,19 +68,19 @@ public class GameService {
     }
 
     public boolean checkInWord(String letter) {
-        return secretWord.contains(letter.toUpperCase());
+        return hangman.getSecretWord().contains(letter.toUpperCase());
     }
 
     public boolean isGameWon() {
         Set<Character> distinct = new HashSet<>();
-        for (char c : secretWord.toCharArray()) {
+        for (char c : hangman.getSecretWord().toCharArray()) {
             distinct.add(c);
         }
         return correctGuesses == distinct.size();
     }
 
-    public int getNumberOfGuessesLeft() {
-        return this.guessesInTotal;
-    }
+//    public int getNumberOfGuessesLeft() {
+//        return this.guessesInTotal;
+//    }
     public int getNumberOfIncorrectGuesses() { return this.incorrectGuesses; }
 }
