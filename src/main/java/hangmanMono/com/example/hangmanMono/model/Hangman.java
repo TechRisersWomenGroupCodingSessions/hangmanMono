@@ -4,13 +4,17 @@ public class Hangman {
     private final String secretWord;
     private boolean isInProgress;
     private int numberOfGuesses;
-    private int correctGuesses;
+    private int incorrectGuesses;
 
     public Hangman(String secretWord, boolean isInProgress, int correctGuesses, int numberOfGuesses) {
         this.secretWord = secretWord;
         this.isInProgress = isInProgress;
-        this.correctGuesses = 0;
         this.numberOfGuesses = numberOfGuesses;
+        this.incorrectGuesses = 0;
+    }
+
+    public int getIncorrectGuesses() {
+        return incorrectGuesses;
     }
 
     public void setInProgress(boolean inProgress) {

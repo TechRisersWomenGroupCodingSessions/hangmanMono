@@ -12,30 +12,16 @@ import java.util.TreeMap;
 public class GameService {
 
     private final Hangman hangman;
-
-//    private final String secretWord;
-//    private boolean isInProgress;
     private TreeMap<String, String> guesses;
-//    private int guessesInTotal;
-    private boolean gameIsWon;
-//    private int correctGuesses;
     private int incorrectGuesses;
 
     @Autowired
-    public GameService(String secretWord, Hangman hangman) {
-//        this.secretWord = secretWord.toUpperCase();
-//        this.isInProgress = true;
+    public GameService(Hangman hangman) {
         this.guesses = new TreeMap<>();
-//        this.guessesInTotal = 10;
-        this.gameIsWon = false;
-//        this.correctGuesses = 0;
-        this.incorrectGuesses = 0;
         this.hangman = hangman;
+
     }
 
-//    public boolean isGameInProgress() {
-//        return isInProgress;
-//    }
 
     public String guess(String letter) {
         String upperCaseLetter = letter.toUpperCase();
@@ -48,7 +34,6 @@ public class GameService {
 
         if (letter.matches("[a-zA-Z]") && checkInWord(upperCaseLetter)) {
             guesses.put(upperCaseLetter, "correct");
-            this.correctGuesses++;
             return "Valid";
         } else {
             this.incorrectGuesses++;
@@ -56,7 +41,6 @@ public class GameService {
         }
 
         if(!isGameWon() && this.hangman.getNumberOfGuesses() == 0){
-            gameIsWon = false;
             hangman.setInProgress(false);
         }
 
@@ -76,11 +60,8 @@ public class GameService {
         for (char c : hangman.getSecretWord().toCharArray()) {
             distinct.add(c);
         }
-        return correctGuesses == distinct.size();
+        return hangman.getNumberOfGuesses() - hangman.getIncorrectGuesses() == distinct.size();
     }
 
-//    public int getNumberOfGuessesLeft() {
-//        return this.guessesInTotal;
-//    }
     public int getNumberOfIncorrectGuesses() { return this.incorrectGuesses; }
 }
