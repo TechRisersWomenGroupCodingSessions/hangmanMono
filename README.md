@@ -10,6 +10,8 @@ https://www.youtube.com/watch?v=RfCWg5ay5B0&t=300s
 
 **Ignore file locally only**
 
+`git update-index --skip-worktree src/main/resources/application.properties`
+
 `git update-index --skip-worktree [<PATH TO FILE>...]`
 
 **The application is running on** http://localhost:8080/api/v1/
