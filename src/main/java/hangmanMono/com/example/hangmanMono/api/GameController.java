@@ -1,6 +1,6 @@
 package hangmanMono.com.example.hangmanMono.api;
 
-import hangmanMono.com.example.hangmanMono.model.SecretWord;
+import hangmanMono.com.example.hangmanMono.model.StartGame;
 import hangmanMono.com.example.hangmanMono.services.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -23,7 +23,7 @@ public class GameController {
     }
 
     @GetMapping("/start")
-    public SecretWord startTheGame () {
+    public StartGame startTheGame () {
         return gameService.startTheGame();
     }
 

@@ -1,25 +1,24 @@
 package hangmanMono.com.example.hangmanMono.services;
 
 import hangmanMono.com.example.hangmanMono.model.Hangman;
-import hangmanMono.com.example.hangmanMono.model.SecretWord;
-import org.springframework.beans.factory.annotation.Autowired;
+import hangmanMono.com.example.hangmanMono.model.StartGame;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.UUID;
 
 @Service
 public class GameService {
 
-    private final Hangman hangman;
+    private Hangman hangman;
     private TreeMap<String, String> guesses;
     private int incorrectGuesses;
 
-    @Autowired
-    public GameService(Hangman hangman) {
+
+    public GameService() {
         this.guesses = new TreeMap<>();
-        this.hangman = hangman;
     }
 
     public String guess(String letter) {
@@ -65,8 +64,15 @@ public class GameService {
 
     public int getNumberOfIncorrectGuesses() { return this.incorrectGuesses; }
 
-    public SecretWord startTheGame() {
+    public StartGame startTheGame() {
         SecretWordService secretWordService = new SecretWordService();
-        String secretWord = secretWordService.getSecretWords();
+        String randomWord = secretWordService.getSecretWord();
+
+        UUID gameId = UUID.randomUUID();
+        StartGame startGame = new StartGame(randomWord.length(), gameId);
+
+        this.hangman = new Hangman(randomWord, gameId);
+
+        return startGame;
     }
 }

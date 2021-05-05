@@ -34,7 +34,10 @@ public class PlayerControllerTest {
     void checkPlayerName() throws Exception {
         Player player = new Player("Bob");
 
-        assertThat(this.restTemplate.postForObject("http://localhost:" + port + "/api/v1/player", player, Player.class).getName().equals("Bob"));
+        assertThat(this.restTemplate
+                .postForObject("http://localhost:" + port + "/api/v1/player", player, Player.class)
+                .getName()
+                .equals("Bob"));
 //        System.out.println("hereee " + this.restTemplate.postForObject("http://localhost:" + port + "/api/v1/player", player, Player.class).getId());
     }
 }

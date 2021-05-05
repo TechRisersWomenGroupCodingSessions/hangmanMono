@@ -6,14 +6,14 @@ import java.util.Random;
 
 public class SecretWordService {
 
-    private String secretWords;
+    private String secretWord;
 
-    public String getSecretWords() {
-        return secretWords;
+    public String getSecretWord() {
+        return secretWord;
     }
 
     public SecretWordService() {
-        this.secretWords = randomizeSecretWord();
+        this.secretWord = randomizeSecretWord();
     }
 
     private String randomizeSecretWord() {
