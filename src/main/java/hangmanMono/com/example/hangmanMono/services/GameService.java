@@ -1,6 +1,7 @@
 package hangmanMono.com.example.hangmanMono.services;
 
 import hangmanMono.com.example.hangmanMono.model.Hangman;
+import hangmanMono.com.example.hangmanMono.model.SecretWord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,14 +20,13 @@ public class GameService {
     public GameService(Hangman hangman) {
         this.guesses = new TreeMap<>();
         this.hangman = hangman;
-
     }
-
 
     public String guess(String letter) {
         String upperCaseLetter = letter.toUpperCase();
 
         this.hangman.setNumberOfGuesses(this.hangman.getNumberOfGuesses()-1);
+
         if (guesses.containsKey(upperCaseLetter)) {
             this.incorrectGuesses++;
             return "duplicate";
@@ -40,7 +40,7 @@ public class GameService {
             guesses.put(upperCaseLetter, "incorrect");
         }
 
-        if(!isGameWon() && this.hangman.getNumberOfGuesses() == 0){
+        if (!isGameWon() && this.hangman.getNumberOfGuesses() == 0){
             hangman.setInProgress(false);
         }
 
@@ -64,4 +64,9 @@ public class GameService {
     }
 
     public int getNumberOfIncorrectGuesses() { return this.incorrectGuesses; }
+
+    public SecretWord startTheGame() {
+        SecretWordService secretWordService = new SecretWordService();
+        String secretWord = secretWordService.getSecretWords();
+    }
 }
