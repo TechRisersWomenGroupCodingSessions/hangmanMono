@@ -1,13 +1,14 @@
 package hangmanMono.com.example.hangmanMono.api;
 
+import hangmanMono.com.example.hangmanMono.model.Guess;
+import hangmanMono.com.example.hangmanMono.model.ResponseToGuess;
 import hangmanMono.com.example.hangmanMono.model.StartGame;
 import hangmanMono.com.example.hangmanMono.services.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @EnableAutoConfiguration
@@ -27,8 +28,8 @@ public class GameController {
         return gameService.startTheGame();
     }
 
-//    @GetMapping("/guess")
-//    public SecretWord guess () {
-//        return gameService.guess();
-//    }
+    @PostMapping("/guess")
+    public ResponseToGuess guess (@RequestBody Guess guess) {
+        return gameService.guess(guess);
+    }
 }

@@ -42,4 +42,9 @@ public class Hangman {
     public int getNumberOfGuesses() {
         return this.numberOfGuesses;
     }
+
+    public Integer decrementNumberOfGuess() {
+        // TODO correct the below
+        this.hangman.setNumberOfGuesses(this.hangman.getNumberOfGuesses()-1);
+    }
 }

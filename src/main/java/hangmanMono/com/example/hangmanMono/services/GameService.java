@@ -1,6 +1,8 @@
 package hangmanMono.com.example.hangmanMono.services;
 
+import hangmanMono.com.example.hangmanMono.model.Guess;
 import hangmanMono.com.example.hangmanMono.model.Hangman;
+import hangmanMono.com.example.hangmanMono.model.ResponseToGuess;
 import hangmanMono.com.example.hangmanMono.model.StartGame;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +23,14 @@ public class GameService {
         this.guesses = new TreeMap<>();
     }
 
-    public String guess(String letter) {
+    public ResponseToGuess guess(Guess guess) {
         String upperCaseLetter = letter.toUpperCase();
 
+        //TODO continue refactoring this method
         this.hangman.setNumberOfGuesses(this.hangman.getNumberOfGuesses()-1);
 
         if (guesses.containsKey(upperCaseLetter)) {
-            this.incorrectGuesses++;
+            this.hangman.setNumberOfGuesses(this.hangman.getIncorrectGuesses() + 1);
             return "duplicate";
         }
 

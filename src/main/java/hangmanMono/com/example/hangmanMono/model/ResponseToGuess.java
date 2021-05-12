@@ -1,15 +1,18 @@
 package hangmanMono.com.example.hangmanMono.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class ResponseToGuess {
     private int numberOfIncorrectGuesses;
     private boolean gameInProgress;
     private List<Letter> incorrectLetters;
+    private List<Letter> correctLetters;
 
-    public ResponseToGuess(int numberOfIncorrectGuesses) {
+    public ResponseToGuess(int numberOfIncorrectGuesses, boolean gameInProgress, List<Letter> incorrectLetters, List<Letter> correctLetters) {
         this.numberOfIncorrectGuesses = numberOfIncorrectGuesses;
-        this.incorrectLetters = new ArrayList<Letter>();
+        this.gameInProgress = gameInProgress;
+        this.incorrectLetters = incorrectLetters;
+        this.correctLetters = correctLetters;
     }
 
     public int getNumberOfIncorrectGuesses() {
@@ -34,5 +37,13 @@ public class ResponseToGuess {
 
     public void setIncorrectLetters(List<Letter> incorrectLetters) {
         this.incorrectLetters = incorrectLetters;
+    }
+
+    public List<Letter> getCorrectLetters() {
+        return correctLetters;
+    }
+
+    public void setCorrectLetters(List<Letter> correctLetters) {
+        this.correctLetters = correctLetters;
     }
 }
