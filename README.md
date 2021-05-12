@@ -99,6 +99,25 @@ server -> client
 
 h _ l  l _
 
+{letter: 'x',
+gameId: 1234
+}
+
+``
+{
+incorrectGuessesLeft: 8,
+gameInProgress: True,
+incorrectLetter: [ {
+letter: 'x' }, {letter: 'p'}],
+lettersInSecret: [{
+letter: 'l',
+positions: [2, 3]
+},{
+letter: 'h',
+positions: [0]
+}]
+}
+``
 
 
 
