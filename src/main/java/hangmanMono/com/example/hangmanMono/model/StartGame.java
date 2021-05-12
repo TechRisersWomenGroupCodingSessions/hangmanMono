@@ -15,4 +15,8 @@ public class StartGame {
     public UUID getGameId() {
         return gameId;
     }
+
+    public Integer getSecretWordLength(){
+        return secretWordLength;
+    }
 }

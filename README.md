@@ -52,4 +52,53 @@ Example Response
 - Return name & id to client
 - Dynamically add name & id to database (i.e. from the name field)
 
+/game/start
+``
+{"secretWordLength":5,"gameId":"075091cc-1ca6-484f-b9d9-65f2eb14e422"}
+``
+
+ - - - - - -
+
+/game/guess
+
+{letter: 'l'} 
+
+client -> server
+
+``
+{
+ lettersInSecret: [{
+letter: 'l',
+positions: [2, 3]
+}]
+}
+``
+
+server -> client
+
+_ _ l  l _
+
+
+{letter: 'h'}
+
+client -> server
+
+``
+{
+lettersInSecret: [{
+letter: 'l',
+positions: [2, 3]
+},{
+letter: 'h',
+positions: [0]
+}]
+}
+``
+
+server -> client
+
+h _ l  l _
+
+
+
 
