@@ -43,8 +43,11 @@ public class Hangman {
         return this.numberOfGuesses;
     }
 
-    public Integer decrementNumberOfGuess() {
-        // TODO correct the below
-        this.hangman.setNumberOfGuesses(this.hangman.getNumberOfGuesses()-1);
+    public Integer decrementNumberOfGuesses() {
+        return this.numberOfGuesses-1;
+    }
+
+    public Integer incrementIncorrectGuesses() {
+        return this.incorrectGuesses+1;
     }
 }

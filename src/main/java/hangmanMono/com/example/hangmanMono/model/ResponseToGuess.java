@@ -3,6 +3,7 @@ package hangmanMono.com.example.hangmanMono.model;
 import java.util.List;
 
 public class ResponseToGuess {
+    // TODO decide whether we need the numberOfIncorrectGuesses here because we also have it in Hangman
     private int numberOfIncorrectGuesses;
     private boolean gameInProgress;
     private List<Letter> incorrectLetters;
