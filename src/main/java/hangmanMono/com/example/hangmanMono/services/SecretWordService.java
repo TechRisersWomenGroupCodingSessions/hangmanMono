@@ -8,12 +8,12 @@ public class SecretWordService {
 
     private String secretWord;
 
-    public String getSecretWord() {
-        return secretWord;
-    }
-
     public SecretWordService() {
         this.secretWord = randomizeSecretWord();
+    }
+
+    public String getSecretWord() {
+        return secretWord;
     }
 
     private String randomizeSecretWord() {
@@ -22,4 +22,6 @@ public class SecretWordService {
         String secretWord = secretWords.get(random);
         return secretWord;
     }
+
+
 }
