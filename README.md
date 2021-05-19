@@ -119,5 +119,9 @@ positions: [0]
 }
 ``
 
+TODO NEXT:
+* add code for saving positions 
+* create a text/input field in FE for the guess
+* take the guess, check it and return a JSON response (see above)
 
 

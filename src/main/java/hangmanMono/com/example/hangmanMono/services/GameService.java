@@ -1,9 +1,6 @@
 package hangmanMono.com.example.hangmanMono.services;
 
-import hangmanMono.com.example.hangmanMono.model.Guess;
-import hangmanMono.com.example.hangmanMono.model.Hangman;
-import hangmanMono.com.example.hangmanMono.model.ResponseToGuess;
-import hangmanMono.com.example.hangmanMono.model.StartGame;
+import hangmanMono.com.example.hangmanMono.model.*;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -12,9 +9,8 @@ import java.util.*;
 public class GameService {
 
     private Hangman hangman;
-    private List<String> incorrectLetters;
-    private List<String> correctLetters;
-    private int incorrectGuesses;
+    private List<Letter> incorrectLetters;
+    private List<Letter> correctLetters;
 
     public GameService() {
         this.incorrectLetters = new ArrayList<>();
@@ -22,16 +18,20 @@ public class GameService {
     }
 
     public ResponseToGuess guess(Guess guess) {
-
         this.hangman.decrementNumberOfGuesses();
 
         String upperCaseLetter = guess.getLetter().toUpperCase();
-        Boolean containsDuplicates = checkForDuplicates(guess, upperCaseLetter);
         Boolean isValidLetter = checkIfLetterIsValid(guess, upperCaseLetter);
+
+        if (isValidLetter) {
+            // TODO is this variable needed for testing?
+            Boolean containsDuplicates = checkForDuplicates(guess, upperCaseLetter);
+        }
 
         ResponseToGuess responseToGuess = new ResponseToGuess(hangman.getIncorrectGuesses(),
                 hangman.isGameInProgress(), incorrectLetters, correctLetters);
 
+        return responseToGuess;
     }
 
     public void isGameInProgress() {
@@ -47,19 +47,20 @@ public class GameService {
             return true;
         }
         return false;
-}
+    }
 
     public Boolean checkIfLetterIsValid(Guess guess, String upperCaseLetter) {
+        Letter letter = new Letter(upperCaseLetter);
+
         if (guess.getLetter().matches("[a-zA-Z]") && checkInWord(upperCaseLetter)) {
-            correctLetters.add(upperCaseLetter);
+            correctLetters.add(letter);
             return true;
         } else {
-            this.incorrectGuesses++;
-            incorrectLetters.add(upperCaseLetter);
+            this.hangman.incrementIncorrectGuesses();
+            incorrectLetters.add(letter);
         }
         return false;
     }
-
 
     public boolean checkInWord(String letter) {
         return hangman.getSecretWord().contains(letter.toUpperCase());
@@ -72,8 +73,6 @@ public class GameService {
         }
         return hangman.getNumberOfGuesses() - hangman.getIncorrectGuesses() == distinct.size();
     }
-
-    public int getNumberOfIncorrectGuesses() { return this.incorrectGuesses; }
 
     public StartGame startTheGame() {
         SecretWordService secretWordService = new SecretWordService();
