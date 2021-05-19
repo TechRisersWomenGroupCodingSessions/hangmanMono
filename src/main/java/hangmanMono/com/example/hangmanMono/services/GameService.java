@@ -6,39 +6,43 @@ import hangmanMono.com.example.hangmanMono.model.ResponseToGuess;
 import hangmanMono.com.example.hangmanMono.model.StartGame;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class GameService {
 
     private Hangman hangman;
-    private TreeMap<String, String> guesses;
+    private List<String> incorrectLetters;
+    private List<String> correctLetters;
     private int incorrectGuesses;
 
     public GameService() {
-        this.guesses = new TreeMap<>();
+        this.incorrectLetters = new ArrayList<>();
+        this.correctLetters = new ArrayList<>();
     }
 
     public ResponseToGuess guess(Guess guess) {
+
         this.hangman.decrementNumberOfGuesses();
 
         String upperCaseLetter = guess.getLetter().toUpperCase();
         Boolean containsDuplicates = checkForDuplicates(guess, upperCaseLetter);
         Boolean isValidLetter = checkIfLetterIsValid(guess, upperCaseLetter);
 
-        if (!containsDuplicates && isValidLetter && !isGameWon() && this.hangman.getNumberOfGuesses() == 0){
+        ResponseToGuess responseToGuess = new ResponseToGuess(hangman.getIncorrectGuesses(),
+                hangman.isGameInProgress(), incorrectLetters, correctLetters);
+
+    }
+
+    public void isGameInProgress() {
+        if (!isGameWon() && this.hangman.getNumberOfGuesses() == 0) {
             hangman.setInProgress(false);
         }
-
-        return "Invalid";
     }
 
     public Boolean checkForDuplicates(Guess guess, String upperCaseLetter){
 
-        if (guesses.containsKey(upperCaseLetter)) {
+        if (correctLetters.contains(upperCaseLetter) || incorrectLetters.contains(upperCaseLetter)) {
             this.hangman.incrementIncorrectGuesses();
             return true;
         }
@@ -47,18 +51,15 @@ public class GameService {
 
     public Boolean checkIfLetterIsValid(Guess guess, String upperCaseLetter) {
         if (guess.getLetter().matches("[a-zA-Z]") && checkInWord(upperCaseLetter)) {
-            guesses.put(upperCaseLetter, "correct");
+            correctLetters.add(upperCaseLetter);
             return true;
         } else {
             this.incorrectGuesses++;
-            guesses.put(upperCaseLetter, "incorrect");
+            incorrectLetters.add(upperCaseLetter);
         }
         return false;
     }
 
-    public TreeMap<String, String> getGuesses() {
-        return this.guesses;
-    }
 
     public boolean checkInWord(String letter) {
         return hangman.getSecretWord().contains(letter.toUpperCase());

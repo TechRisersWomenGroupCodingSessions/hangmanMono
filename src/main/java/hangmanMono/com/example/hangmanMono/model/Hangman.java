@@ -29,6 +29,7 @@ public class Hangman {
         isInProgress = inProgress;
     }
 
+
     public String getSecretWord() {
         return secretWord;
     }
