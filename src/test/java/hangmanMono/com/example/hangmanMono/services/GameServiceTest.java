@@ -1,25 +1,34 @@
-//
-//package hangmanMono.com.example.hangmanMono.services;
-//
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//
-//import java.util.TreeMap;
-//
-//import static org.junit.jupiter.api.Assertions.*;
-//
-//public class GameServiceTest {
-//
-//    private GameService hangman;
-//
-//    @BeforeEach
-//    public void setUp() {
-//        hangman = new GameService();
-//    }
-//
-//
-//
-//
+
+package hangmanMono.com.example.hangmanMono.services;
+
+import hangmanMono.com.example.hangmanMono.model.Hangman;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.TreeMap;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class GameServiceTest {
+
+    private GameService gameService;
+
+    @BeforeEach
+    public void setUp() {
+        gameService = new GameService();
+    }
+
+    @Test
+    public void testCheckTheGameIsInProgress(){
+        SecretWordService secretWordService = new SecretWordService();
+        UUID gameId = UUID.randomUUID();
+        Hangman hangman = new Hangman(secretWordService.getSecretWord(), gameId);
+        gameService.isGameInProgress();
+        assertFalse(gameService.getGameInProgressStatus());
+    }
+
+
 //
 //    @Test
 //    public void testCheckNumberOfGuesses(){
@@ -27,11 +36,7 @@
 //        assertEquals(10, hangman.getNumberOfGuessesLeft());
 //    }
 //
-//    @Test
-//    public void testCheckTheGameIsInProgress(){
-//        hangman = new GameService("Hello");
-//        assertTrue(hangman.isGameInProgress());
-//    }
+
 //
 //    @Test
 //    public void testGuessContainsInvalidResult() {
@@ -190,5 +195,5 @@
 //        assertFalse(hangman.isGameWon());
 //        assertFalse(hangman.isGameInProgress());
 //    }
-//}
-//
+}
+

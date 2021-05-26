@@ -8,17 +8,43 @@ import java.util.*;
 @Service
 public class GameService {
 
-    private Hangman hangman;
+    private final int numberOfGuesses;
+    private int incorrectGuesses;
+    private boolean isInProgress;
     private List<Letter> incorrectLetters;
     private List<Letter> correctLetters;
 
     public GameService() {
         this.incorrectLetters = new ArrayList<>();
         this.correctLetters = new ArrayList<>();
+        this.numberOfGuesses = 20;
+        this.incorrectGuesses = 0;
+
+        //need to revisit this
+        this.isInProgress = false;
+    }
+
+    public int getIncorrectGuesses() {
+        return incorrectGuesses;
+    }
+    public int getNumberOfGuesses() {
+        return this.numberOfGuesses;
+    }
+    public Integer decrementNumberOfGuesses() {
+        return this.numberOfGuesses-1;
+    }
+    public Integer incrementIncorrectGuesses() {
+        return this.incorrectGuesses+1;
+    }
+    public void setInProgress(boolean inProgress) {
+        isInProgress = inProgress;
+    }
+    public boolean isGameInProgress() {
+        return isInProgress;
     }
 
     public ResponseToGuess guess(Guess guess) {
-        this.hangman.decrementNumberOfGuesses();
+        decrementNumberOfGuesses();
 
         String upperCaseLetter = guess.getLetter().toUpperCase();
         Boolean isValidLetter = checkIfLetterIsValid(guess, upperCaseLetter);
@@ -28,22 +54,27 @@ public class GameService {
             Boolean containsDuplicates = checkForDuplicates(guess, upperCaseLetter);
         }
 
-        ResponseToGuess responseToGuess = new ResponseToGuess(hangman.getIncorrectGuesses(),
-                hangman.isGameInProgress(), incorrectLetters, correctLetters);
+        ResponseToGuess responseToGuess = new ResponseToGuess(getIncorrectGuesses(),
+                isGameInProgress(), incorrectLetters, correctLetters);
 
         return responseToGuess;
     }
 
-    public void isGameInProgress() {
-        if (!isGameWon() && this.hangman.getNumberOfGuesses() == 0) {
-            hangman.setInProgress(false);
-        }
+//    public void isGameInProgress() {
+//        if (!isGameWon() && getNumberOfGuesses() == 0) {
+//            hangman.setInProgress(false);
+//        }
+//    }
+
+    public boolean getGameInProgressStatus() {
+        return isGameInProgress();
     }
+
 
     public Boolean checkForDuplicates(Guess guess, String upperCaseLetter){
 
         if (correctLetters.contains(upperCaseLetter) || incorrectLetters.contains(upperCaseLetter)) {
-            this.hangman.incrementIncorrectGuesses();
+            incrementIncorrectGuesses();
             return true;
         }
         return false;
@@ -58,7 +89,7 @@ public class GameService {
             correctLetters.add(letter);
             return true;
         } else {
-            this.hangman.incrementIncorrectGuesses();
+            incrementIncorrectGuesses();
             incorrectLetters.add(letter);
         }
         return false;
@@ -73,7 +104,7 @@ public class GameService {
         for (char c : hangman.getSecretWord().toCharArray()) {
             distinct.add(c);
         }
-        return hangman.getNumberOfGuesses() - hangman.getIncorrectGuesses() == distinct.size();
+        return getNumberOfGuesses() - getIncorrectGuesses() == distinct.size();
     }
 
     public StartGame startTheGame() {
