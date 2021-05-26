@@ -17,7 +17,8 @@ public class SecretWordService {
     }
 
     private String randomizeSecretWord() {
-        List<String> secretWords = Arrays.asList("Chocolate", "Pizza", "Burgers", "Salad");
+        // TODO Change somewhere else the words to be in all caps?
+        List<String> secretWords = Arrays.asList("CHOCOLATE", "PIZZA", "BURGERS", "SALAD");
         int random = new Random().nextInt(secretWords.size());
         String secretWord = secretWords.get(random);
         return secretWord;

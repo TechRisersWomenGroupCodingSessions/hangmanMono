@@ -50,6 +50,8 @@ public class GameService {
     }
 
     public Boolean checkIfLetterIsValid(Guess guess, String upperCaseLetter) {
+
+        // TODO is this the best place to ensure Letter is always a capital letter? Should this be checked at the database level?
         Letter letter = new Letter(upperCaseLetter);
 
         if (guess.getLetter().matches("[a-zA-Z]") && checkInWord(upperCaseLetter)) {
