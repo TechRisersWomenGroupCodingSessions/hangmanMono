@@ -13,13 +13,16 @@ public class GameService {
     private boolean isInProgress;
     private List<Letter> incorrectLetters;
     private List<Letter> correctLetters;
+    private SecretWordService secretWordService;
+    private UUID gameId;
 
     public GameService() {
         this.incorrectLetters = new ArrayList<>();
         this.correctLetters = new ArrayList<>();
         this.numberOfGuesses = 20;
         this.incorrectGuesses = 0;
-
+        this.secretWordService = new SecretWordService();
+        this.gameId = UUID.randomUUID();
         //need to revisit this
         this.isInProgress = false;
     }
@@ -39,9 +42,6 @@ public class GameService {
     public void setInProgress(boolean inProgress) {
         isInProgress = inProgress;
     }
-    public boolean isGameInProgress() {
-        return isInProgress;
-    }
 
     public ResponseToGuess guess(Guess guess) {
         decrementNumberOfGuesses();
@@ -60,16 +60,14 @@ public class GameService {
         return responseToGuess;
     }
 
-//    public void isGameInProgress() {
-//        if (!isGameWon() && getNumberOfGuesses() == 0) {
-//            hangman.setInProgress(false);
-//        }
-//    }
-
-    public boolean getGameInProgressStatus() {
-        return isGameInProgress();
+    public Boolean isGameInProgress() {
+        // TODO FIX THIS NEXT - number of guesses should not be defined in the constructor as 0
+        if (!isGameWon() && getNumberOfGuesses() == 0) {
+            setInProgress(false);
+        }
+        setInProgress(true);
+        return isInProgress;
     }
-
 
     public Boolean checkForDuplicates(Guess guess, String upperCaseLetter){
 
@@ -96,26 +94,19 @@ public class GameService {
     }
 
     public boolean checkInWord(String letter) {
-        return hangman.getSecretWord().contains(letter.toUpperCase());
+        return secretWordService.getSecretWord().contains(letter.toUpperCase());
     }
 
     public boolean isGameWon() {
         Set<Character> distinct = new HashSet<>();
-        for (char c : hangman.getSecretWord().toCharArray()) {
+        for (char c : secretWordService.getSecretWord().toCharArray()) {
             distinct.add(c);
         }
         return getNumberOfGuesses() - getIncorrectGuesses() == distinct.size();
     }
 
     public StartGame startTheGame() {
-        SecretWordService secretWordService = new SecretWordService();
-        String randomWord = secretWordService.getSecretWord();
-
-        UUID gameId = UUID.randomUUID();
-        StartGame startGame = new StartGame(randomWord.length(), gameId);
-
-        this.hangman = new Hangman(randomWord, gameId);
-
+        StartGame startGame = new StartGame(secretWordService.getSecretWord().length(), gameId);
         return startGame;
     }
 }

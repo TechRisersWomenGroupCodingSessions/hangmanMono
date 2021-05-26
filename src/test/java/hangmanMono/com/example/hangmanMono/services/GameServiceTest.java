@@ -21,11 +21,7 @@ public class GameServiceTest {
 
     @Test
     public void testCheckTheGameIsInProgress(){
-        SecretWordService secretWordService = new SecretWordService();
-        UUID gameId = UUID.randomUUID();
-        Hangman hangman = new Hangman(secretWordService.getSecretWord(), gameId);
-        gameService.isGameInProgress();
-        assertFalse(gameService.getGameInProgressStatus());
+        assertFalse(gameService.isGameInProgress());
     }
 
 
