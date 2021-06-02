@@ -38,6 +38,17 @@ public class PlayerControllerTest {
                 .postForObject("http://localhost:" + port + "/api/v1/player", player, Player.class)
                 .getName()
                 .equals("Bob"));
-//        System.out.println("hereee " + this.restTemplate.postForObject("http://localhost:" + port + "/api/v1/player", player, Player.class).getId());
+
+    }
+
+    @Test
+    void checkPlayerID() throws Exception {
+        Player player = new Player("Bob");
+
+
+
+        assertThat(this.restTemplate.postForObject("http://localhost:" + port + "/api/v1/player", player, Player.class)
+                .getId()
+                .equals(1));
     }
 }
