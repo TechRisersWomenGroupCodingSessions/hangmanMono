@@ -2,6 +2,20 @@
 
 https://www.youtube.com/watch?v=RfCWg5ay5B0&t=300s
 
+**Docker**
+
+first add docker to path
+
+create postgres instance:
+
+docker run --name spring-postgres -e POSTGRES_PASSWORD=password -d -p 5432:5432 postgres:alpine
+
+creates a postgres user called 'postgres' with password 'password'
+
+Expose the port:
+
+docker port spring-postgres
+
 **To build and run the application, execute these commands:**
 
 `mvn clean install`
@@ -123,6 +137,6 @@ TODO NEXT:
 * add code for saving positions 
 * create a text/input field in FE for the guess
 * take the guess, check it and return a JSON response (see above)
-* refactor SecretWordSErviceTest & GameserviceTest
+* refactor SecretWordServiceTest & GameserviceTest
 
 
