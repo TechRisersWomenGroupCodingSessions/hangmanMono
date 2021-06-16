@@ -1,9 +1,12 @@
 
 package hangmanMono.com.example.hangmanMono.services;
 
+import hangmanMono.com.example.hangmanMono.model.Player;
+import hangmanMono.com.example.hangmanMono.model.StartGame;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameServiceTest {
@@ -20,6 +23,16 @@ public class GameServiceTest {
         assertFalse(gameService.isGameInProgress());
     }
 
+    @Test
+    void checkGameID() throws Exception {
+        //StartGame startGame = new StartGame();
+        StartGame startGame = gameService.startTheGame();
+
+        assertThat(this.restTemplate
+                .postForObject("http://localhost:" + port + "/api/v1/player", player, Player.class)
+                .getId()
+                .equals(1));
+    }
 
 //
 //    @Test

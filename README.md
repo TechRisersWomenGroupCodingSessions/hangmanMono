@@ -1,3 +1,7 @@
+**Project Plan**
+
+https://miro.com/app/board/o9J_lBZkjN4=/
+
 **Good video showing how to install Maven on Windows:**
 
 https://www.youtube.com/watch?v=RfCWg5ay5B0&t=300s
