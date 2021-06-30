@@ -35,6 +35,7 @@ docker port spring-postgres
 **The application is running on** http://localhost:8080/api/v1/
 
 **Postgres Admin** http://127.0.0.1:60390/browser/
+psql -U postgres
 
 **API Design**
 

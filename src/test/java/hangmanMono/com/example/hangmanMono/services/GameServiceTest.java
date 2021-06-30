@@ -23,16 +23,16 @@ public class GameServiceTest {
         assertFalse(gameService.isGameInProgress());
     }
 
-    @Test
-    void checkGameID() throws Exception {
-        //StartGame startGame = new StartGame();
-        StartGame startGame = gameService.startTheGame();
-
-        assertThat(this.restTemplate
-                .postForObject("http://localhost:" + port + "/api/v1/player", player, Player.class)
-                .getId()
-                .equals(1));
-    }
+//    @Test
+//    void checkGameID() throws Exception {
+//        //StartGame startGame = new StartGame();
+//        StartGame startGame = gameService.startTheGame();
+//
+//        assertThat(this.restTemplate
+//                .postForObject("http://localhost:" + port + "/api/v1/player", player, Player.class)
+//                .getId()
+//                .equals(1));
+//    }
 
 //
 //    @Test
