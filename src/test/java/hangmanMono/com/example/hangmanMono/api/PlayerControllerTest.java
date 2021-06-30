@@ -28,8 +28,9 @@ public class PlayerControllerTest {
     @Autowired
     private PlayerController playerController;
 
+    // TODO: rewrite using new method
     @Test
-    void checkPlayerIDTop() throws Exception {
+    void checkMultiplePlayerIDs() throws Exception {
         Player player = new Player("Bob");
         Player player2 = new Player("Steve");
 
@@ -50,6 +51,7 @@ public class PlayerControllerTest {
         final String baseUrl = "http://localhost:" + port + "/api/v1/player";
 
         URI uri = new URI(baseUrl);
+
         Player player = new Player("Kate");
 
         HttpHeaders headers = new HttpHeaders();
@@ -60,43 +62,45 @@ public class PlayerControllerTest {
 
         System.out.println("******" + result.getBody());
 
-
-        //Verify bad request and missing header
-//        Assert.assertEquals(400, result.getStatusCodeValue());
-        Assert.assertEquals(true, result.getBody().contains("\"id\":1"));
+        Assert.assertEquals(true, result.getBody().contains("\"id\":3"));
     }
 
 
-    // TODO re-write this test as above
     @Test
-    void checkIfPlayerWasCreated() throws Exception {
-        Player player = new Player("Bob");
-        assertThat(this.restTemplate
-                .postForEntity("http://localhost:" + port + "/api/v1/player", player, Player.class)
-                .getStatusCodeValue())
-                .isEqualTo(200);
+    void checkIfPlayerWasCreatedWithOKResponse() throws Exception {
+        final String baseUrl = "http://localhost:" + port + "/api/v1/player";
+
+        URI uri = new URI(baseUrl);
+
+        Player player = new Player("Kate");
+
+        HttpHeaders headers = new HttpHeaders();
+
+        HttpEntity<Player> request = new HttpEntity<>(player, headers);
+
+        ResponseEntity<String> result = this.restTemplate.postForEntity(uri, request, String.class);
+
+        // Verify ok response
+        Assert.assertEquals(200, result.getStatusCodeValue());
+
     }
 
-    // TODO re-write this test as above
     @Test
     void checkPlayerName() throws Exception {
+        final String baseUrl = "http://localhost:" + port + "/api/v1/player";
+
+        URI uri = new URI(baseUrl);
+
         Player player = new Player("Bob");
 
-        assertThat(this.restTemplate
-                .postForObject("http://localhost:" + port + "/api/v1/player", player, Player.class)
-                .getName()
-                .equals("Bob"));
+        HttpHeaders headers = new HttpHeaders();
+
+        HttpEntity<Player> request = new HttpEntity<>(player, headers);
+
+        ResponseEntity<String> result = this.restTemplate.postForEntity(uri, request, String.class);
+
+        // Verify response has name Bob
+        Assert.assertEquals(true, result.getBody().contains("\"name\":\"Bob\""));
     }
 
-// faulty test
-
-//    @Test
-//    void checkPlayerID() throws Exception {
-//        Player player = new Player("Bob");
-//
-//        assertThat(this.restTemplate
-//                .postForObject("http://localhost:" + port + "/api/v1/player", player, Player.class)
-//                .getId()
-//                .equals(1));
-//    }
 }
