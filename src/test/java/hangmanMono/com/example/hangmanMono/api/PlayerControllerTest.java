@@ -27,9 +27,6 @@ public class PlayerControllerTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    @Autowired
-    private PlayerController playerController;
-
     private URI uri;
     private Player player;
     private String baseUrl;
@@ -43,39 +40,34 @@ public class PlayerControllerTest {
         this.player = new Player("Bob");
     }
 
-    // TODO: rewrite using new method
-//    @Test
-//    public void checkMultiplePlayerIDs() throws Exception {
-//        Player player = new Player("Bob");
-//        Player player2 = new Player("Steve");
-//
-//        assertThat(this.restTemplate
-//                .postForObject("http://localhost:" + port + "/api/v1/player", player, Player.class)
-//                .getId()
-//                .equals(2));
-//
-//        assertThat(this.restTemplate
-//                .postForObject("http://localhost:" + port + "/api/v1/player", player2, Player.class)
-//                .getId()
-//                .equals(1));
-//    }
+    @Test
+    public void checkMultiplePlayersIDs() throws URISyntaxException {
+        Player player2 = new Player("Steve");
 
-//    @Test
-//    public void checkMultiplePlayersIDs() throws URISyntaxException {
-//        Player player2 = new Player("Steve");
-//
-//
-//        HttpHeaders headers = new HttpHeaders();
-//
-//        HttpEntity<Player> request = new HttpEntity<>(player, headers);
-//
-//        ResponseEntity<String> result = this.restTemplate.postForEntity(uri, request, String.class);
-//
-//        System.out.println("******" + result.getBody());
-//
-//        Assert.assertEquals(true, result.getBody().contains("\"id\":3, \"name\": \"Kate\""));
-////        Assert.assertEquals(true, result.getBody().contains("\"id\":4, \"name\": \"Steve\""));
-//    }
+        HttpHeaders headers = new HttpHeaders();
+
+        HttpEntity<Player> request = new HttpEntity<>(player, headers);
+
+        ResponseEntity<Player> result= this.restTemplate.postForEntity(uri, request, Player.class);
+
+        HttpEntity<Player> request2 = new HttpEntity<>(player2, headers);
+
+        ResponseEntity<Player> result2 = this.restTemplate.postForEntity(uri, request2, Player.class);
+
+        System.out.println("******" + result.getBody());
+
+        Player body = result.getBody();
+
+        Long firstID = body.getId();
+
+        Long secondID = firstID + 1;
+
+        Assert.assertNotNull(firstID);
+
+        Assert.assertNotNull(result2.getBody().getId());
+
+        Assert.assertEquals(secondID, result2.getBody().getId());
+    }
 
     @Test
     public void checkPlayerId() throws URISyntaxException
@@ -85,11 +77,11 @@ public class PlayerControllerTest {
 
         HttpEntity<Player> request = new HttpEntity<>(player, headers);
 
-        ResponseEntity<String> result = this.restTemplate.postForEntity(uri, request, String.class);
+        ResponseEntity<Player> playerResponseEntity = this.restTemplate.postForEntity(uri, request, Player.class);
 
-        System.out.println("******" + result.getBody());
+        Player body = playerResponseEntity.getBody();
 
-        Assert.assertEquals(true, result.getBody().contains("\"id\":5"));
+        Assert.assertNotNull(body.getId());
 
     }
 
@@ -115,10 +107,12 @@ public class PlayerControllerTest {
 
         HttpEntity<Player> request = new HttpEntity<>(player, headers);
 
-        ResponseEntity<String> result = this.restTemplate.postForEntity(uri, request, String.class);
+        ResponseEntity<Player> playerResponseEntity = this.restTemplate.postForEntity(uri, request, Player.class);
+
+        Player body = playerResponseEntity.getBody();
 
         // Verify response has name Bob
-        Assert.assertEquals(true, result.getBody().contains("\"name\":\"Bob\""));
+        Assert.assertEquals("Bob", body.getName());
     }
 
 }
