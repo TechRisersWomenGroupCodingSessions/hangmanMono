@@ -2,7 +2,6 @@ package hangmanMono.com.example.hangmanMono.api;
 
 import hangmanMono.com.example.hangmanMono.model.Player;
 import org.junit.Assert;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +11,8 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-
 import java.net.URI;
 import java.net.URISyntaxException;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class PlayerControllerTest {
@@ -34,14 +30,12 @@ public class PlayerControllerTest {
     @BeforeEach
     public void start() throws URISyntaxException {
         this.baseUrl = "http://localhost:" + port + "/api/v1/player";
-
         this.uri = new URI(baseUrl);
-
         this.player = new Player("Bob");
     }
 
     @Test
-    public void checkMultiplePlayersIDs() throws URISyntaxException {
+    public void shouldBeAbleToCreateMultiplePlayers() throws URISyntaxException {
         Player player2 = new Player("Steve");
 
         HttpHeaders headers = new HttpHeaders();
@@ -63,16 +57,12 @@ public class PlayerControllerTest {
         Long secondID = firstID + 1;
 
         Assert.assertNotNull(firstID);
-
         Assert.assertNotNull(result2.getBody().getId());
-
         Assert.assertEquals(secondID, result2.getBody().getId());
     }
 
     @Test
-    public void checkPlayerId() throws URISyntaxException
-    {
-
+    public void shouldHaveNotNullPlayerId() throws URISyntaxException {
         HttpHeaders headers = new HttpHeaders();
 
         HttpEntity<Player> request = new HttpEntity<>(player, headers);
@@ -82,13 +72,11 @@ public class PlayerControllerTest {
         Player body = playerResponseEntity.getBody();
 
         Assert.assertNotNull(body.getId());
-
     }
 
 
     @Test
-    public void checkIfPlayerWasCreatedWithOKResponse() throws Exception {
-
+    public void shouldCreatePlayerWithOKResponse() throws Exception {
         HttpHeaders headers = new HttpHeaders();
 
         HttpEntity<Player> request = new HttpEntity<>(player, headers);
@@ -97,11 +85,10 @@ public class PlayerControllerTest {
 
         // Verify ok response
         Assert.assertEquals(200, result.getStatusCodeValue());
-
     }
 
     @Test
-    public void checkPlayerName() throws Exception {
+    public void shouldReturnCorrectPlayerName() throws Exception {
 
         HttpHeaders headers = new HttpHeaders();
 
@@ -115,4 +102,15 @@ public class PlayerControllerTest {
         Assert.assertEquals("Bob", body.getName());
     }
 
+    @Test
+    public void shouldReturnOKResponseWhenGetAllPlayers() throws Exception {
+        HttpHeaders headers = new HttpHeaders();
+
+        HttpEntity<Player> request = new HttpEntity<>(player, headers);
+
+        ResponseEntity<String> result = this.restTemplate.getForEntity(uri, String.class);
+
+        // Verify ok response
+        Assert.assertEquals(200, result.getStatusCodeValue());
+    }
 }

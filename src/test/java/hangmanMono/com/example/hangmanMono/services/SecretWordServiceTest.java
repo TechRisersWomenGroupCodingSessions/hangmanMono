@@ -30,6 +30,4 @@ public class SecretWordServiceTest {
         }
         assertEquals(word.length(), counter);
     }
-
-
 }

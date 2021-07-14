@@ -31,5 +31,4 @@ public class PlayerController {
     public List<Player> getPlayers(){
         return playerService.getPlayers();
     }
-
 }
