@@ -105,8 +105,8 @@ public class GameService {
         return getNumberOfGuesses() - getIncorrectGuesses() == distinct.size();
     }
 
-    public StartGame startTheGame() {
-        StartGame startGame = new StartGame(secretWordService.getSecretWord().length(), gameId);
-        return startGame;
+    public StartGameResponse startTheGame() {
+        StartGameResponse startGameResponse = new StartGameResponse(secretWordService.getSecretWord().length(), gameId);
+        return startGameResponse;
     }
 }

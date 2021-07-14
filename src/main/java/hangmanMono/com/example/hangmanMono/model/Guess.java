@@ -4,9 +4,9 @@ import java.util.UUID;
 
 public class Guess {
     private String letter;
-    private UUID gameId;
+    private Long gameId;
 
-    public Guess(String letter, UUID gameId) {
+    public Guess(String letter, Long gameId) {
         this.letter = letter;
         this.gameId = gameId;
     }
@@ -19,11 +19,11 @@ public class Guess {
         this.letter = letter;
     }
 
-    public UUID getGameId() {
+    public Long getGameId() {
         return gameId;
     }
 
-    public void setGameId(UUID gameId) {
+    public void setGameId(Long gameId) {
         this.gameId = gameId;
     }
 }

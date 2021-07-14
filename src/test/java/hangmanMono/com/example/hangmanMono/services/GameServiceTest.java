@@ -1,8 +1,6 @@
 
 package hangmanMono.com.example.hangmanMono.services;
 
-import hangmanMono.com.example.hangmanMono.model.Player;
-import hangmanMono.com.example.hangmanMono.model.StartGame;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
