@@ -14,15 +14,16 @@ public class GameService {
     private List<Letter> incorrectLetters;
     private List<Letter> correctLetters;
     private SecretWordService secretWordService;
-    private UUID gameId;
+    private Long gameId;
 
+    //TODO change the constructor as GameID needs to retrieve ID from database
     public GameService() {
         this.incorrectLetters = new ArrayList<>();
         this.correctLetters = new ArrayList<>();
         this.numberOfGuesses = 20;
         this.incorrectGuesses = 0;
         this.secretWordService = new SecretWordService();
-        this.gameId = UUID.randomUUID();
+//        this.gameId = UUID.randomUUID();
         //need to revisit this
         this.isInProgress = false;
     }

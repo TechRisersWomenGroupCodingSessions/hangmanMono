@@ -5,14 +5,14 @@ import java.util.UUID;
 public class StartGameResponse {
 
     private final Integer secretWordLength;
-    private final UUID gameId;
+    private final Long gameId;
 
-    public StartGameResponse(Integer secretWordLength, UUID gameId) {
+    public StartGameResponse(Integer secretWordLength, Long gameId) {
         this.secretWordLength = secretWordLength;
         this.gameId = gameId;
     }
     
-    public UUID getGameId() {
+    public Long getGameId() {
         return gameId;
     }
 
