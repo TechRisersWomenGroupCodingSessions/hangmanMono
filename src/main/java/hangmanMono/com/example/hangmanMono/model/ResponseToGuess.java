@@ -1,12 +1,34 @@
 package hangmanMono.com.example.hangmanMono.model;
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity(name = "GAME")
+@Table
 public class ResponseToGuess {
     // TODO decide whether we need the numberOfIncorrectGuesses here because we also have it in Hangman
-    private int numberOfIncorrectGuesses;
+    @Id
+    @SequenceGenerator(
+            name = "game_sequence",
+            sequenceName = "game_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "game_sequence"
+    )
+    private Long gameId;
+
+    @OneToOne(cascade=CascadeType.ALL)//one-to-one
+    @JoinColumn(name="PLAYER_ID")
+    private Player player;
+
     private boolean gameInProgress;
+    private int numberOfIncorrectGuesses;
+
+    @Transient
     private List<Letter> incorrectLetters;
+    @Transient
     private List<Letter> correctLetters;
 
     public ResponseToGuess(int numberOfIncorrectGuesses, boolean gameInProgress, List<Letter> incorrectLetters, List<Letter> correctLetters) {

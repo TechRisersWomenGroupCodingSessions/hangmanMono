@@ -1,8 +1,21 @@
 package hangmanMono.com.example.hangmanMono.model;
 
-import java.util.UUID;
+import javax.persistence.*;
 
+@Entity(name = "GUESS")
+@Table
 public class Guess {
+    @Id
+    @SequenceGenerator(
+            name = "guess_sequence",
+            sequenceName = "guess_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "guess_sequence"
+    )
+    private Long guessId;
     private String letter;
     private Long gameId;
 

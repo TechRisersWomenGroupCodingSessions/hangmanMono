@@ -2,7 +2,7 @@ package hangmanMono.com.example.hangmanMono.model;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name = "PLAYER")
 @Table
 public class Player {
     @Id
@@ -15,6 +15,8 @@ public class Player {
             strategy = GenerationType.SEQUENCE,
             generator = "player_sequence"
     )
+
+    @Column(name = "ID")
     private Long id;
     private String name;
 
