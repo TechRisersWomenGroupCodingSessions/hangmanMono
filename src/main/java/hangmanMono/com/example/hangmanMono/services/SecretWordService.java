@@ -18,6 +18,7 @@ public class SecretWordService {
 
     private String randomizeSecretWord() {
         // TODO Change somewhere else the words to be in all caps?
+        // TODO How can we test for it if secretWord is being randomised?
         List<String> secretWords = Arrays.asList("CHOCOLATE", "PIZZA", "BURGERS", "SALAD");
         int random = new Random().nextInt(secretWords.size());
         String secretWord = secretWords.get(random);

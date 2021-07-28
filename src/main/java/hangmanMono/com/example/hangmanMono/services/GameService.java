@@ -44,6 +44,7 @@ public class GameService {
         isInProgress = inProgress;
     }
 
+    // TODO Difficult to test because lots of functions in one place and object being passed in
     public ResponseToGuess guess(Guess guess) {
         decrementNumberOfGuesses();
 
