@@ -22,7 +22,6 @@ public class GameService {
         this.playerRepository = playerRepository;
     }
 
-
     // TODO Difficult to test because lots of functions in one place and object being passed in
     public ResponseToGuess guess(Guess guess) {
 
@@ -30,10 +29,8 @@ public class GameService {
         return null;
     }
 
-
-
     public StartGameResponse startTheGame(StartGameRequest startGameRequest) {
-        Long playerId = startGameRequest.getId();
+        Long playerId = startGameRequest.getPlayerId();
         boolean gameInProgress = startGameRequest.getGameInProgress();
 
         SecretWordService secretWordService = new SecretWordService();
@@ -43,8 +40,9 @@ public class GameService {
 
         if (player.isPresent()){
             ResponseToGuess game = new ResponseToGuess(secretWord, player.get(), gameInProgress);
-            gameRepository.save(game);
-            return null;
+            ResponseToGuess saveGameId = gameRepository.save(game);
+
+            return new StartGameResponse(secretWord.length(), saveGameId.getGameId());
         } else {
             // Send Error Message
 
@@ -52,6 +50,5 @@ public class GameService {
                     HttpStatus.NOT_FOUND, "player not found"
             );
         }
-
     }
 }

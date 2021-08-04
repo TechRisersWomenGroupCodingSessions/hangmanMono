@@ -1,7 +1,5 @@
 package hangmanMono.com.example.hangmanMono.model;
 
-import java.util.UUID;
-
 public class StartGameResponse {
 
     private final Integer secretWordLength;
