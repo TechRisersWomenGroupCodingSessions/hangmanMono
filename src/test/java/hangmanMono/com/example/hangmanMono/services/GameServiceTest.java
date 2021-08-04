@@ -2,24 +2,22 @@
 package hangmanMono.com.example.hangmanMono.services;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class GameServiceTest {
 
-    private GameService gameService;
+   // private GameService gameService;
 
     @BeforeEach
     public void setUp() {
-        gameService = new GameService();
+      //  gameService = new GameService(gameRepository);
     }
 
-    @Test
-    public void testCheckTheGameIsInProgress(){
-        assertFalse(gameService.isGameInProgress());
-    }
+//    @Test
+//    public void testCheckTheGameIsInProgress(){
+//        assertFalse(gameService.isGameInProgress());
+//    }
 
 //    @Test
 //    void checkGameID() throws Exception {

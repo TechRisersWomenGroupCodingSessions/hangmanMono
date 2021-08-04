@@ -2,18 +2,18 @@ package hangmanMono.com.example.hangmanMono.model;
 
 public class StartGameRequest {
     private Long id;
-    private boolean startGame;
+    private boolean gameInProgress;
 
-    public StartGameRequest(Long id, boolean startGame) {
+    public StartGameRequest(Long id, boolean gameInProgress) {
         this.id = id;
-        this.startGame = startGame;
+        this.gameInProgress = gameInProgress;
     }
 
     public Long getId() {
         return id;
     }
 
-    public boolean isStartGame() {
-        return startGame;
+    public boolean getGameInProgress() {
+        return gameInProgress;
     }
 }

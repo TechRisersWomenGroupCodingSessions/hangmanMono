@@ -24,7 +24,7 @@ public class GameController {
 
     @PostMapping("/start")
     public StartGameResponse startTheGame (@RequestBody StartGameRequest startGameRequest) {
-        return gameService.startTheGame();
+        return gameService.startTheGame(startGameRequest);
     }
 
     @PostMapping("/guess")

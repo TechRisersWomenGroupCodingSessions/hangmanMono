@@ -23,6 +23,7 @@ public class ResponseToGuess {
     @JoinColumn(name="PLAYER_ID")
     private Player player;
 
+    private String secretWord;
     private boolean gameInProgress;
     private int numberOfIncorrectGuesses;
 
@@ -30,6 +31,12 @@ public class ResponseToGuess {
     private List<Letter> incorrectLetters;
     @Transient
     private List<Letter> correctLetters;
+
+    public ResponseToGuess(String secretWord, Player player, boolean gameInProgress){
+        this.secretWord = secretWord;
+        this.player = player;
+        this.gameInProgress = gameInProgress;
+    }
 
     public ResponseToGuess(int numberOfIncorrectGuesses, boolean gameInProgress, List<Letter> incorrectLetters, List<Letter> correctLetters) {
         this.numberOfIncorrectGuesses = numberOfIncorrectGuesses;

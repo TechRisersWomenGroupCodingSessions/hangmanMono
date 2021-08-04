@@ -1,114 +1,57 @@
 package hangmanMono.com.example.hangmanMono.services;
 
 import hangmanMono.com.example.hangmanMono.model.*;
+import hangmanMono.com.example.hangmanMono.repository.GameRepository;
+import hangmanMono.com.example.hangmanMono.repository.PlayerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.util.*;
+import java.util.Optional;
 
 @Service
 public class GameService {
 
-    private final int numberOfGuesses;
-    private int incorrectGuesses;
-    private boolean isInProgress;
-    private List<Letter> incorrectLetters;
-    private List<Letter> correctLetters;
-    private SecretWordService secretWordService;
-    private Long gameId;
+    private final GameRepository gameRepository;
+    private final PlayerRepository playerRepository;
 
-    //TODO change the constructor as GameID needs to retrieve ID from database
-    public GameService() {
-        this.incorrectLetters = new ArrayList<>();
-        this.correctLetters = new ArrayList<>();
-        this.numberOfGuesses = 20;
-        this.incorrectGuesses = 0;
-        this.secretWordService = new SecretWordService();
-//        this.gameId = UUID.randomUUID();
-        //need to revisit this
-        this.isInProgress = false;
+    @Autowired
+    public GameService(GameRepository gameRepository, PlayerRepository playerRepository) {
+        this.gameRepository = gameRepository;
+        this.playerRepository = playerRepository;
     }
 
-    public int getIncorrectGuesses() {
-        return incorrectGuesses;
-    }
-    public int getNumberOfGuesses() {
-        return this.numberOfGuesses;
-    }
-    public Integer decrementNumberOfGuesses() {
-        return this.numberOfGuesses-1;
-    }
-    public Integer incrementIncorrectGuesses() {
-        return this.incorrectGuesses+1;
-    }
-    public void setInProgress(boolean inProgress) {
-        isInProgress = inProgress;
-    }
 
     // TODO Difficult to test because lots of functions in one place and object being passed in
     public ResponseToGuess guess(Guess guess) {
-        decrementNumberOfGuesses();
 
-        String upperCaseLetter = guess.getLetter().toUpperCase();
-        Boolean isValidLetter = checkIfLetterIsValid(guess, upperCaseLetter);
 
-        if (isValidLetter) {
-            // TODO is this variable needed for testing?
-            Boolean containsDuplicates = checkForDuplicates(guess, upperCaseLetter);
-        }
-
-        ResponseToGuess responseToGuess = new ResponseToGuess(getIncorrectGuesses(),
-                isGameInProgress(), incorrectLetters, correctLetters);
-
-        return responseToGuess;
+        return null;
     }
 
-    public Boolean isGameInProgress() {
-        // TODO FIX THIS NEXT - number of guesses should not be defined in the constructor as 0
-        if (!isGameWon() && getNumberOfGuesses() == 0) {
-            setInProgress(false);
-        }
-        setInProgress(true);
-        return isInProgress;
-    }
 
-    public Boolean checkForDuplicates(Guess guess, String upperCaseLetter){
 
-        if (correctLetters.contains(upperCaseLetter) || incorrectLetters.contains(upperCaseLetter)) {
-            incrementIncorrectGuesses();
-            return true;
-        }
-        return false;
-    }
+    public StartGameResponse startTheGame(StartGameRequest startGameRequest) {
+        Long playerId = startGameRequest.getId();
+        boolean gameInProgress = startGameRequest.getGameInProgress();
 
-    public Boolean checkIfLetterIsValid(Guess guess, String upperCaseLetter) {
+        SecretWordService secretWordService = new SecretWordService();
+        String secretWord = secretWordService.getSecretWord();
 
-        // TODO is this the best place to ensure Letter is always a capital letter? Should this be checked at the database level?
-        Letter letter = new Letter(upperCaseLetter);
+        Optional<Player> player = playerRepository.findById(playerId);
 
-        if (guess.getLetter().matches("[a-zA-Z]") && checkInWord(upperCaseLetter)) {
-            correctLetters.add(letter);
-            return true;
+        if (player.isPresent()){
+            ResponseToGuess game = new ResponseToGuess(secretWord, player.get(), gameInProgress);
+            gameRepository.save(game);
+            return null;
         } else {
-            incrementIncorrectGuesses();
-            incorrectLetters.add(letter);
+            // Send Error Message
+
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "player not found"
+            );
         }
-        return false;
-    }
 
-    public boolean checkInWord(String letter) {
-        return secretWordService.getSecretWord().contains(letter.toUpperCase());
-    }
-
-    public boolean isGameWon() {
-        Set<Character> distinct = new HashSet<>();
-        for (char c : secretWordService.getSecretWord().toCharArray()) {
-            distinct.add(c);
-        }
-        return getNumberOfGuesses() - getIncorrectGuesses() == distinct.size();
-    }
-
-    public StartGameResponse startTheGame() {
-        StartGameResponse startGameResponse = new StartGameResponse(secretWordService.getSecretWord().length(), gameId);
-        return startGameResponse;
     }
 }
