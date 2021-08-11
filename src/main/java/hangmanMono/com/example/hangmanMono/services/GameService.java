@@ -22,7 +22,6 @@ public class GameService {
         this.playerRepository = playerRepository;
     }
 
-    // TODO Difficult to test because lots of functions in one place and object being passed in
     public ResponseToGuess guess(Guess guess) {
 
 
@@ -44,8 +43,6 @@ public class GameService {
 
             return new StartGameResponse(secretWord.length(), saveGameId.getGameId());
         } else {
-            // Send Error Message
-
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "player not found"
             );

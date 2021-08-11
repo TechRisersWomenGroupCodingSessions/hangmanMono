@@ -19,7 +19,7 @@ public class ResponseToGuess {
     )
     private Long gameId;
 
-    @OneToOne(cascade=CascadeType.ALL)//one-to-one
+    @OneToOne(cascade=CascadeType.ALL) //one-to-one
     @JoinColumn(name="PLAYER_ID")
     private Player player;
 
