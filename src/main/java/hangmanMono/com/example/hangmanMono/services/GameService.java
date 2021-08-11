@@ -15,11 +15,13 @@ public class GameService {
 
     private final GameRepository gameRepository;
     private final PlayerRepository playerRepository;
+    private final SecretWordService secretWordService;
 
     @Autowired
-    public GameService(GameRepository gameRepository, PlayerRepository playerRepository) {
+    public GameService(GameRepository gameRepository, PlayerRepository playerRepository, SecretWordService secretWordService) {
         this.gameRepository = gameRepository;
         this.playerRepository = playerRepository;
+        this.secretWordService = secretWordService;
     }
 
     public ResponseToGuess guess(Guess guess) {
@@ -32,14 +34,14 @@ public class GameService {
         Long playerId = startGameRequest.getPlayerId();
         boolean gameInProgress = startGameRequest.getGameInProgress();
 
-        SecretWordService secretWordService = new SecretWordService();
+        secretWordService.randomizeSecretWord();
         String secretWord = secretWordService.getSecretWord();
 
         Optional<Player> player = playerRepository.findById(playerId);
 
         if (player.isPresent()){
             ResponseToGuess game = new ResponseToGuess(secretWord, player.get(), gameInProgress);
-            ResponseToGuess saveGameId = gameRepository.save(game);
+            ResponseToGuess saveGameId = gameRepository.save(game); // mock return value of save()
 
             return new StartGameResponse(secretWord.length(), saveGameId.getGameId());
         } else {
