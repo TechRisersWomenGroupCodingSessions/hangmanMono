@@ -16,17 +16,17 @@ public class GameService {
     private final GameRepository gameRepository;
     private final PlayerRepository playerRepository;
     private final SecretWordService secretWordService;
+    private final ResponseToGuess responseToGuess;
 
     @Autowired
-    public GameService(GameRepository gameRepository, PlayerRepository playerRepository, SecretWordService secretWordService) {
+    public GameService(GameRepository gameRepository, PlayerRepository playerRepository, SecretWordService secretWordService, ResponseToGuess responseToGuess) {
         this.gameRepository = gameRepository;
         this.playerRepository = playerRepository;
         this.secretWordService = secretWordService;
+        this.responseToGuess = responseToGuess;
     }
 
     public ResponseToGuess guess(Guess guess) {
-
-
         return null;
     }
 
@@ -40,10 +40,26 @@ public class GameService {
         Optional<Player> player = playerRepository.findById(playerId);
 
         if (player.isPresent()){
-            ResponseToGuess game = new ResponseToGuess(secretWord, player.get(), gameInProgress);
-            ResponseToGuess saveGameId = gameRepository.save(game); // mock return value of save()
+//            ResponseToGuess game = new ResponseToGuess(secretWord, player.get(), gameInProgress);
+            responseToGuess.setSecretWord(secretWord);
+            responseToGuess.setPlayer(player.get());
+            responseToGuess.setGameInProgress(gameInProgress);
 
-            return new StartGameResponse(secretWord.length(), saveGameId.getGameId());
+            try {
+                ResponseToGuess savedGame = gameRepository.save(responseToGuess); // mock return value of save()
+
+                Long savedGameId = savedGame.getGameId();
+
+                return new StartGameResponse(secretWord.length(), savedGameId);
+
+            } catch (NullPointerException e) {
+                throw new ResponseStatusException(
+                        HttpStatus.INTERNAL_SERVER_ERROR, "Cannot save the game"
+                );
+            }
+
+
+
         } else {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "player not found"

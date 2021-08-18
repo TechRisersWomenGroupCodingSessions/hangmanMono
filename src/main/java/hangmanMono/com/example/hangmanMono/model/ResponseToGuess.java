@@ -32,6 +32,9 @@ public class ResponseToGuess {
     @Transient
     private List<Letter> correctLetters;
 
+    public ResponseToGuess() {
+    }
+
     public ResponseToGuess(String secretWord, Player player, boolean gameInProgress){
         this.secretWord = secretWord;
         this.player = player;
@@ -83,5 +86,13 @@ public class ResponseToGuess {
 
     public void setCorrectLetters(List<Letter> correctLetters) {
         this.correctLetters = correctLetters;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public void setSecretWord(String secretWord) {
+        this.secretWord = secretWord;
     }
 }
