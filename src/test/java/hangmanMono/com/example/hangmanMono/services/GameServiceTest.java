@@ -1,15 +1,14 @@
 package hangmanMono.com.example.hangmanMono.services;
 
-import hangmanMono.com.example.hangmanMono.model.Player;
-import hangmanMono.com.example.hangmanMono.model.ResponseToGuess;
-import hangmanMono.com.example.hangmanMono.model.StartGameRequest;
-import hangmanMono.com.example.hangmanMono.model.StartGameResponse;
+import hangmanMono.com.example.hangmanMono.model.*;
 import hangmanMono.com.example.hangmanMono.repository.GameRepository;
 import hangmanMono.com.example.hangmanMono.repository.PlayerRepository;
 import org.checkerframework.checker.nullness.Opt;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -63,6 +62,21 @@ public class GameServiceTest {
         StartGameResponse response = gameService.startTheGame(request);
 
         assertEquals(1, response.getGameId());
+    }
+
+    @Test
+    public void givenGuessIsCalled_whenGuessIsIncorrect_thenReturnsResponse(){
+        Guess guess = new Guess("H", 1L);
+
+        ResponseToGuess response = gameService.guess(guess);
+        ArrayList<Letter> incorrectLetters = response.getIncorrectLetters();
+        ArrayList<Letter> correctLetters = response.getCorrectLetters();
+
+        assertEquals(9, response.getNumberOfIncorrectGuesses());
+        assertTrue(response.isGameInProgress());
+        assertEquals(1, incorrectLetters.size());
+        assertEquals("H", incorrectLetters.get(0).getLetter());
+        assertEquals(0, correctLetters.size());
     }
 
     public void setupStartGameWithPlayer(){

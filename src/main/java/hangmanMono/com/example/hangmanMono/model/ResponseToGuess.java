@@ -1,6 +1,7 @@
 package hangmanMono.com.example.hangmanMono.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "GAME")
@@ -28,9 +29,9 @@ public class ResponseToGuess {
     private int numberOfIncorrectGuesses;
 
     @Transient
-    private List<Letter> incorrectLetters;
+    private ArrayList<Letter> incorrectLetters;
     @Transient
-    private List<Letter> correctLetters;
+    private ArrayList<Letter> correctLetters;
 
     public ResponseToGuess() {
     }
@@ -41,7 +42,7 @@ public class ResponseToGuess {
         this.gameInProgress = gameInProgress;
     }
 
-    public ResponseToGuess(int numberOfIncorrectGuesses, boolean gameInProgress, List<Letter> incorrectLetters, List<Letter> correctLetters) {
+    public ResponseToGuess(int numberOfIncorrectGuesses, boolean gameInProgress, ArrayList<Letter> incorrectLetters, ArrayList<Letter> correctLetters) {
         this.numberOfIncorrectGuesses = numberOfIncorrectGuesses;
         this.gameInProgress = gameInProgress;
         this.incorrectLetters = incorrectLetters;
@@ -72,19 +73,19 @@ public class ResponseToGuess {
         this.gameInProgress = gameInProgress;
     }
 
-    public List<Letter> getIncorrectLetters() {
+    public ArrayList<Letter> getIncorrectLetters() {
         return incorrectLetters;
     }
 
-    public void setIncorrectLetters(List<Letter> incorrectLetters) {
+    public void setIncorrectLetters(ArrayList<Letter> incorrectLetters) {
         this.incorrectLetters = incorrectLetters;
     }
 
-    public List<Letter> getCorrectLetters() {
+    public ArrayList<Letter> getCorrectLetters() {
         return correctLetters;
     }
 
-    public void setCorrectLetters(List<Letter> correctLetters) {
+    public void setCorrectLetters(ArrayList<Letter> correctLetters) {
         this.correctLetters = correctLetters;
     }
 
