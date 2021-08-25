@@ -16,14 +16,12 @@ public class GameService {
     private final GameRepository gameRepository;
     private final PlayerRepository playerRepository;
     private final SecretWordService secretWordService;
-    private final ResponseToGuess responseToGuess;
 
     @Autowired
-    public GameService(GameRepository gameRepository, PlayerRepository playerRepository, SecretWordService secretWordService, ResponseToGuess responseToGuess) {
+    public GameService(GameRepository gameRepository, PlayerRepository playerRepository, SecretWordService secretWordService) {
         this.gameRepository = gameRepository;
         this.playerRepository = playerRepository;
         this.secretWordService = secretWordService;
-        this.responseToGuess = responseToGuess;
     }
 
     public ResponseToGuess guess(Guess guess) {
@@ -32,33 +30,27 @@ public class GameService {
 
     public StartGameResponse startTheGame(StartGameRequest startGameRequest) {
         Long playerId = startGameRequest.getPlayerId();
+
         boolean gameInProgress = startGameRequest.getGameInProgress();
 
         secretWordService.randomizeSecretWord();
+
         String secretWord = secretWordService.getSecretWord();
 
         Optional<Player> player = playerRepository.findById(playerId);
 
         if (player.isPresent()){
-//            ResponseToGuess game = new ResponseToGuess(secretWord, player.get(), gameInProgress);
-            responseToGuess.setSecretWord(secretWord);
-            responseToGuess.setPlayer(player.get());
-            responseToGuess.setGameInProgress(gameInProgress);
+            ResponseToGuess responseToGuess = new ResponseToGuess(secretWord, player.get(), gameInProgress);
 
             try {
-                ResponseToGuess savedGame = gameRepository.save(responseToGuess); // mock return value of save()
-
-                Long savedGameId = savedGame.getGameId();
-
-                return new StartGameResponse(secretWord.length(), savedGameId);
-
+                ResponseToGuess savedGame = gameRepository.save(responseToGuess);
+                System.out.println(savedGame);
+                return new StartGameResponse(secretWord.length(), savedGame.getGameId());
             } catch (NullPointerException e) {
                 throw new ResponseStatusException(
                         HttpStatus.INTERNAL_SERVER_ERROR, "Cannot save the game"
                 );
             }
-
-
 
         } else {
             throw new ResponseStatusException(

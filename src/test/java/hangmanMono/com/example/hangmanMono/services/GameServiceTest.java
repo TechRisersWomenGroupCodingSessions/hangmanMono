@@ -22,37 +22,58 @@ public class GameServiceTest {
     SecretWordService mockedSecretWordService;
     PlayerRepository mockedPlayerRepository;
     GameRepository mockedGameRepository;
-    ResponseToGuess mockedResponseToGuess;
+    private ResponseToGuess responseToGuess;
+    private String secretWord;
+    private Optional<Player> optionalPlayer;
+    private Long playerId;
+    private boolean gameInProgress;
+
 
     @BeforeEach
     public void setUp() {
         mockedGameRepository = mock(GameRepository.class);
         mockedPlayerRepository = mock(PlayerRepository.class);
         mockedSecretWordService = mock(SecretWordService.class);
-        mockedResponseToGuess = mock(ResponseToGuess.class);
-        gameService = new GameService(mockedGameRepository, mockedPlayerRepository, mockedSecretWordService, mockedResponseToGuess);
+        gameService = new GameService(mockedGameRepository, mockedPlayerRepository, mockedSecretWordService);
     }
 
     @Test
-    public void givenStartTheGameIsCalled_whenPlayerExists_thenItReturnsStartGameResponse() {
-        Long playerId = 1L;
-        Player player= new Player("Jack");
-        Optional<Player> optionalPlayer = Optional.of(player);
-        String secretWord = "APPLE";
-        boolean gameInProgress = true;
-        Long gameId = 1L;
-        ResponseToGuess responseToGuess = new ResponseToGuess(secretWord, player, gameInProgress);
-
-        responseToGuess.setGameId(gameId);
+    public void givenStartTheGameIsCalled_whenPlayerExists_thenReturnsSecretWordLength() {
+        this.setupStartGameWithPlayer();
 
         when(mockedSecretWordService.getSecretWord()).thenReturn(secretWord);
-        when(mockedPlayerRepository.findById(playerId)).thenReturn(optionalPlayer);
-        when(mockedGameRepository.save(mockedResponseToGuess)).thenReturn(responseToGuess);
+        when(mockedPlayerRepository.findById(any())).thenReturn(optionalPlayer);
+        when(mockedGameRepository.save(any())).thenReturn(responseToGuess);
 
         StartGameRequest request = new StartGameRequest(playerId, gameInProgress);
         StartGameResponse response = gameService.startTheGame(request);
 
         assertEquals(5, response.getSecretWordLength());
+    }
+
+    @Test
+    public void givenStartTheGameIsCalled_whenPlayerExists_thenReturnsGameId() {
+        this.setupStartGameWithPlayer();
+
+        when(mockedSecretWordService.getSecretWord()).thenReturn(secretWord);
+        when(mockedPlayerRepository.findById(any())).thenReturn(optionalPlayer);
+        when(mockedGameRepository.save(any())).thenReturn(responseToGuess);
+
+        StartGameRequest request = new StartGameRequest(playerId, gameInProgress);
+        StartGameResponse response = gameService.startTheGame(request);
+
+        assertEquals(1, response.getGameId());
+    }
+
+    public void setupStartGameWithPlayer(){
+        playerId = 1L;
+        Player player = new Player("Jack");
+        optionalPlayer = Optional.of(player);
+        secretWord = "APPLE";
+        gameInProgress = true;
+        Long gameId = 1L;
+        responseToGuess = new ResponseToGuess(secretWord, player, gameInProgress);
+        responseToGuess.setGameId(gameId);
     }
 }
 
