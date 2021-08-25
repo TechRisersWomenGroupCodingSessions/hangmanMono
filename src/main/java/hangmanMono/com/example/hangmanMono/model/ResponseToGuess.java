@@ -2,7 +2,7 @@ package hangmanMono.com.example.hangmanMono.model;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.List;
+
 
 @Entity(name = "GAME")
 @Table
@@ -95,5 +95,9 @@ public class ResponseToGuess {
 
     public void setSecretWord(String secretWord) {
         this.secretWord = secretWord;
+    }
+
+    public String getSecretWord() {
+        return secretWord;
     }
 }

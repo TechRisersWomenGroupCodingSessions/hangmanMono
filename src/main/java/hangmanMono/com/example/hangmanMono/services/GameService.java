@@ -1,5 +1,6 @@
 package hangmanMono.com.example.hangmanMono.services;
 
+import hangmanMono.com.example.hangmanMono.library.Hangman;
 import hangmanMono.com.example.hangmanMono.model.*;
 import hangmanMono.com.example.hangmanMono.repository.GameRepository;
 import hangmanMono.com.example.hangmanMono.repository.PlayerRepository;
@@ -25,8 +26,21 @@ public class GameService {
     }
 
     public ResponseToGuess guess(Guess guess) {
+        // TODO rename ResponseToGuess to guess?
+        Optional<ResponseToGuess> game = gameRepository.findById(guess.getGameId());
+        System.out.println("****" + game.get());
 
-        return null;
+        if (game.isPresent()){
+            Hangman hangman = new Hangman(game.get().getSecretWord());
+            String resultOfGuess = hangman.guess(guess.getLetter());
+            int numberOfIncorrectGuesses = hangman.getNumberOfGuessesLeft();
+            boolean isGameInProgress = hangman.isGameInProgress();
+        }
+
+        // Continue adding on
+        game.get().setGameInProgress(isGameInProgress);
+
+        return game.get();
     }
 
     public StartGameResponse startTheGame(StartGameRequest startGameRequest) {
