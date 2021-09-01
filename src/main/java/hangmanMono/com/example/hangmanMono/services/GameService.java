@@ -27,20 +27,24 @@ public class GameService {
 
     public ResponseToGuess guess(Guess guess) {
         // TODO rename ResponseToGuess to guess?
-        Optional<ResponseToGuess> game = gameRepository.findById(guess.getGameId());
-        System.out.println("****" + game.get());
+        Optional<ResponseToGuess> gameOptional = gameRepository.findById(guess.getGameId());
+        System.out.println("****" + gameOptional.get());
 
-        if (game.isPresent()){
-            Hangman hangman = new Hangman(game.get().getSecretWord());
-            String resultOfGuess = hangman.guess(guess.getLetter());
-            int numberOfIncorrectGuesses = hangman.getNumberOfGuessesLeft();
-            boolean isGameInProgress = hangman.isGameInProgress();
+        if (gameOptional.isEmpty()) {
+            return null;
         }
 
+        ResponseToGuess game = gameOptional.get();
+        Hangman hangman = new Hangman(game.getSecretWord());
+        String resultOfGuess = hangman.guess(guess.getLetter());
+        System.out.println("****" + resultOfGuess);
+        int numberOfIncorrectGuesses = hangman.getLives();
+        boolean isGameInProgress = hangman.isGameInProgress();
         // Continue adding on
-        game.get().setGameInProgress(isGameInProgress);
+        game.setGameInProgress(isGameInProgress);
+        game.setNumberOfIncorrectGuesses(numberOfIncorrectGuesses);
+        return game;
 
-        return game.get();
     }
 
     public StartGameResponse startTheGame(StartGameRequest startGameRequest) {
@@ -54,7 +58,7 @@ public class GameService {
 
         Optional<Player> player = playerRepository.findById(playerId);
 
-        if (player.isPresent()){
+        if (player.isPresent()) {
             ResponseToGuess responseToGuess = new ResponseToGuess(secretWord, player.get(), gameInProgress);
 
             try {

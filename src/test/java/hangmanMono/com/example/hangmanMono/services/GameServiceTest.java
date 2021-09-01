@@ -66,6 +66,11 @@ public class GameServiceTest {
 
     @Test
     public void givenGuessIsCalled_whenGuessIsIncorrect_thenReturnsResponse(){
+        this.setupStartGameWithPlayer();
+        Optional<ResponseToGuess> gameOptional = Optional.of(responseToGuess);
+
+        when(mockedGameRepository.findById(any())).thenReturn(gameOptional);
+
         Guess guess = new Guess("H", 1L);
 
         ResponseToGuess response = gameService.guess(guess);

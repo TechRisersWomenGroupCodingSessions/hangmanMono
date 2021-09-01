@@ -8,7 +8,7 @@ public class Hangman {
     private final String secretWord;
     private boolean isInProgress;
     private TreeMap<String, String> guesses;
-    private int guessesInTotal;
+    private int lives;
     private boolean gameIsWon;
     private int correctGuesses;
     private int incorrectGuesses;
@@ -18,7 +18,7 @@ public class Hangman {
         this.secretWord = secretWord.toUpperCase();
         this.isInProgress = true;
         this.guesses = new TreeMap<>();
-        this.guessesInTotal = 10;
+        this.lives = 10;
         this.gameIsWon = false;
         this.correctGuesses = 0;
         this.incorrectGuesses = 0;
@@ -36,9 +36,10 @@ public class Hangman {
     public String guess(String letter) {
         String upperCaseLetter = letter.toUpperCase();
 
-        this.guessesInTotal--;
+
         if (guesses.containsKey(upperCaseLetter)) {
             this.incorrectGuesses++;
+            this.lives--;
             return "duplicate";
         }
 
@@ -48,10 +49,11 @@ public class Hangman {
             return "Valid";
         } else {
             this.incorrectGuesses++;
+            this.lives--;
             guesses.put(upperCaseLetter, "incorrect");
         }
 
-        if(!isGameWon() && guessesInTotal == 0){
+        if(!isGameWon() && lives == 0){
             gameIsWon = false;
             isInProgress = false;
         }
@@ -75,8 +77,8 @@ public class Hangman {
         return correctGuesses == distinct.size();
     }
 
-    public int getNumberOfGuessesLeft() {
-        return this.guessesInTotal;
+    public int getLives() {
+        return this.lives;
     }
     public int getNumberOfIncorrectGuesses() { return this.incorrectGuesses; }
 }

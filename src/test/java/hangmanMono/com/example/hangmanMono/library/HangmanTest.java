@@ -30,7 +30,7 @@ class HangmanTest {
     @Test
     public void testCheckNumberOfGuesses(){
         hangman = new Hangman("Hello");
-        assertEquals(10, hangman.getNumberOfGuessesLeft());
+        assertEquals(10, hangman.getLives());
     }
 
     @Test
@@ -152,9 +152,9 @@ class HangmanTest {
         hangman.guess("n");
         hangman.guess("d");
         boolean gameWon = hangman.isGameWon();
-        int incorrectGuesses = hangman.getNumberOfGuessesLeft();
+        int lives = hangman.getLives();
         assertTrue(gameWon);
-        assertEquals( 0, incorrectGuesses);
+        assertEquals( 10, lives);
     }
 
     @Test
