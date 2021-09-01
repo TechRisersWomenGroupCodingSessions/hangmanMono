@@ -41,15 +41,20 @@ public class GameService {
 
         ResponseToGuess game = gameOptional.get();
         //look up guesses by gameId > return list of guesses
-        //Optional<Guess> guessOptional = guessRepository.findAll()
+        List<Guess> guessList= guessRepository.findAllByGameId(game.getGameId());
 
 
         Hangman hangman = new Hangman(game.getSecretWord());
 
         // loop over the list of guesses, call hangman.guess
+
+        for(Guess item : guessList){
+            String resultOfGuess = hangman.guess(item.getLetter());
+            System.out.println("****" + resultOfGuess);
+        }
         //save the guess to database
-        String resultOfGuess = hangman.guess(guess.getLetter());
-        System.out.println("****" + resultOfGuess);
+        guessRepository.save(guess);
+
         int numberOfIncorrectGuesses = hangman.getLives();
         boolean isGameInProgress = hangman.isGameInProgress();
         // Continue adding on
