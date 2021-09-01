@@ -18,6 +18,7 @@ public class ResponseToGuess {
             strategy = GenerationType.SEQUENCE,
             generator = "game_sequence"
     )
+    @Column(name = "ID")
     private Long gameId;
 
     @OneToOne(cascade=CascadeType.ALL) //one-to-one
@@ -26,7 +27,7 @@ public class ResponseToGuess {
 
     private String secretWord;
     private boolean gameInProgress;
-    private int numberOfIncorrectGuesses;
+    private int lives;
 
     @Transient
     private ArrayList<Letter> incorrectLetters;
@@ -42,19 +43,19 @@ public class ResponseToGuess {
         this.gameInProgress = gameInProgress;
     }
 
-    public ResponseToGuess(int numberOfIncorrectGuesses, boolean gameInProgress, ArrayList<Letter> incorrectLetters, ArrayList<Letter> correctLetters) {
-        this.numberOfIncorrectGuesses = numberOfIncorrectGuesses;
+    public ResponseToGuess(int lives, boolean gameInProgress, ArrayList<Letter> incorrectLetters, ArrayList<Letter> correctLetters) {
+        this.lives = lives;
         this.gameInProgress = gameInProgress;
         this.incorrectLetters = incorrectLetters;
         this.correctLetters = correctLetters;
     }
 
-    public int getNumberOfIncorrectGuesses() {
-        return numberOfIncorrectGuesses;
+    public int getLives() {
+        return lives;
     }
 
-    public void setNumberOfIncorrectGuesses(int numberOfIncorrectGuesses) {
-        this.numberOfIncorrectGuesses = numberOfIncorrectGuesses;
+    public void setLives(int lives) {
+        this.lives = lives;
     }
 
     public Long getGameId() {

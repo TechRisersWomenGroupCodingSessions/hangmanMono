@@ -19,8 +19,21 @@ public class Guess {
     private String letter;
     private Long gameId;
 
+    @ManyToOne(cascade = CascadeType.ALL) //one-to-one
+    @JoinColumn(name = "GAME_ID")
+    @Transient
+    private ResponseToGuess game;
+
     public Guess(String letter, Long gameId) {
         this.letter = letter;
+        this.gameId = gameId;
+    }
+
+    public Long getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(Long gameId) {
         this.gameId = gameId;
     }
 
@@ -32,11 +45,11 @@ public class Guess {
         this.letter = letter;
     }
 
-    public Long getGameId() {
-        return gameId;
+    public ResponseToGuess getGame() {
+        return game;
     }
 
-    public void setGameId(Long gameId) {
-        this.gameId = gameId;
+    public void setGame(ResponseToGuess game) {
+        this.game = game;
     }
 }

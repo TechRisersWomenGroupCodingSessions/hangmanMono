@@ -3,12 +3,15 @@ package hangmanMono.com.example.hangmanMono.services;
 import hangmanMono.com.example.hangmanMono.library.Hangman;
 import hangmanMono.com.example.hangmanMono.model.*;
 import hangmanMono.com.example.hangmanMono.repository.GameRepository;
+import hangmanMono.com.example.hangmanMono.repository.GuessRepository;
 import hangmanMono.com.example.hangmanMono.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,12 +20,14 @@ public class GameService {
     private final GameRepository gameRepository;
     private final PlayerRepository playerRepository;
     private final SecretWordService secretWordService;
+    private final GuessRepository guessRepository;
 
     @Autowired
-    public GameService(GameRepository gameRepository, PlayerRepository playerRepository, SecretWordService secretWordService) {
+    public GameService(GameRepository gameRepository, PlayerRepository playerRepository, SecretWordService secretWordService, GuessRepository guessRepository) {
         this.gameRepository = gameRepository;
         this.playerRepository = playerRepository;
         this.secretWordService = secretWordService;
+        this.guessRepository = guessRepository;
     }
 
     public ResponseToGuess guess(Guess guess) {
@@ -35,14 +40,21 @@ public class GameService {
         }
 
         ResponseToGuess game = gameOptional.get();
+        //look up guesses by gameId > return list of guesses
+        //Optional<Guess> guessOptional = guessRepository.findAll()
+
+
         Hangman hangman = new Hangman(game.getSecretWord());
+
+        // loop over the list of guesses, call hangman.guess
+        //save the guess to database
         String resultOfGuess = hangman.guess(guess.getLetter());
         System.out.println("****" + resultOfGuess);
         int numberOfIncorrectGuesses = hangman.getLives();
         boolean isGameInProgress = hangman.isGameInProgress();
         // Continue adding on
         game.setGameInProgress(isGameInProgress);
-        game.setNumberOfIncorrectGuesses(numberOfIncorrectGuesses);
+        game.setLives(numberOfIncorrectGuesses);
         return game;
 
     }

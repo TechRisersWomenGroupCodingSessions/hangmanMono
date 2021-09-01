@@ -3,12 +3,10 @@ package hangmanMono.com.example.hangmanMono.services;
 import hangmanMono.com.example.hangmanMono.model.*;
 import hangmanMono.com.example.hangmanMono.repository.GameRepository;
 import hangmanMono.com.example.hangmanMono.repository.PlayerRepository;
-import org.checkerframework.checker.nullness.Opt;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -77,7 +75,7 @@ public class GameServiceTest {
         ArrayList<Letter> incorrectLetters = response.getIncorrectLetters();
         ArrayList<Letter> correctLetters = response.getCorrectLetters();
 
-        assertEquals(9, response.getNumberOfIncorrectGuesses());
+        assertEquals(9, response.getLives());
         assertTrue(response.isGameInProgress());
         assertEquals(1, incorrectLetters.size());
         assertEquals("H", incorrectLetters.get(0).getLetter());
