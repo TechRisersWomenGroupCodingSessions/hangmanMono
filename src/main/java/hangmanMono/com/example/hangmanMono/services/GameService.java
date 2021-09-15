@@ -1,6 +1,6 @@
 package hangmanMono.com.example.hangmanMono.services;
 
-import hangmanMono.com.example.hangmanMono.library.GuessResult;
+import hangmanMono.com.example.hangmanMono.model.GuessResult;
 import hangmanMono.com.example.hangmanMono.library.Hangman;
 import hangmanMono.com.example.hangmanMono.model.*;
 import hangmanMono.com.example.hangmanMono.repository.GameRepository;
@@ -59,10 +59,14 @@ public class GameService {
 
         int numberOfIncorrectGuesses = hangman.getLives();
         boolean isGameInProgress = hangman.isGameInProgress();
+        ArrayList<Letter> correctGuesses = hangman.getCorrectGuesses();
+        ArrayList<Letter> incorrectGuesses = hangman.getIncorrectGuesses();
 
         // Continue adding on
         game.setGameInProgress(isGameInProgress);
         game.setLives(numberOfIncorrectGuesses);
+        game.setCorrectLetters(correctGuesses);
+        game.setIncorrectLetters(incorrectGuesses);
 
         return game;
     }

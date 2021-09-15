@@ -1,5 +1,6 @@
 package hangmanMono.com.example.hangmanMono.library;
 
+import hangmanMono.com.example.hangmanMono.model.GuessResult;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

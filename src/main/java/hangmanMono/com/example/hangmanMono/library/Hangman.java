@@ -1,8 +1,10 @@
 package hangmanMono.com.example.hangmanMono.library;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.TreeMap;
+import hangmanMono.com.example.hangmanMono.model.GuessResult;
+import hangmanMono.com.example.hangmanMono.model.Letter;
+
+import java.util.*;
+import java.util.stream.Stream;
 
 public class Hangman {
     private final String secretWord;
@@ -10,8 +12,8 @@ public class Hangman {
     private TreeMap<String, String> guesses;
     private int lives;
     private boolean gameIsWon;
-    private int correctGuesses;
-    private int incorrectGuesses;
+    private ArrayList<Letter> correctGuesses;
+    private ArrayList<Letter> incorrectGuesses;
 
     public Hangman(String secretWord) {
 
@@ -20,8 +22,8 @@ public class Hangman {
         this.guesses = new TreeMap<>();
         this.lives = 10;
         this.gameIsWon = false;
-        this.correctGuesses = 0;
-        this.incorrectGuesses = 0;
+        this.correctGuesses = new ArrayList<>();
+        this.incorrectGuesses = new ArrayList<>();
     }
 
     public String getSecretWord() {
@@ -36,23 +38,29 @@ public class Hangman {
     public GuessResult guess(String letter) {
         String upperCaseLetter = letter.toUpperCase();
 
-        if (guesses.containsKey(upperCaseLetter)) {
-            this.incorrectGuesses++;
+        // fix method to calc duplicates
+        if (isDuplicateGuess(upperCaseLetter)) {
+            //this.incorrectGuesses++;
             this.lives--;
             return GuessResult.DUPLICATE;
         }
 
         if (letter.matches("[a-zA-Z]") && checkInWord(upperCaseLetter)) {
-            guesses.put(upperCaseLetter, "correct");
-            this.correctGuesses++;
+            // guesses.put(upperCaseLetter, "correct");
+            ArrayList<Integer> positions = calculatePositions(upperCaseLetter);
+            correctGuesses.add(new Letter(upperCaseLetter, positions));
+            //this.correctGuesses++;
+
             return GuessResult.CORRECT;
         } else {
-            this.incorrectGuesses++;
+            ArrayList<Integer> positions = calculatePositions(upperCaseLetter);
+            incorrectGuesses.add(new Letter(upperCaseLetter, positions));
+            //this.incorrectGuesses++;
             this.lives--;
-            guesses.put(upperCaseLetter, "incorrect");
+            // guesses.put(upperCaseLetter, "incorrect");
         }
 
-        if(!isGameWon() && lives == 0){
+        if (!isGameWon() && lives == 0) {
             gameIsWon = false;
             isInProgress = false;
         }
@@ -73,11 +81,42 @@ public class Hangman {
         for (char c : secretWord.toCharArray()) {
             distinct.add(c);
         }
-        return correctGuesses == distinct.size();
+        return correctGuesses.size() == distinct.size();
     }
 
     public int getLives() {
         return this.lives;
     }
-    public int getNumberOfIncorrectGuesses() { return this.incorrectGuesses; }
+
+    public int getNumberOfIncorrectGuesses() {
+        return this.incorrectGuesses.size();
+    }
+
+    public ArrayList<Integer> calculatePositions(String letter) {
+        ArrayList<Integer> positions = new ArrayList<>();
+        for (int i = 0; i < secretWord.length(); i++) {
+            if (secretWord.charAt(i) == letter.charAt(0)) {
+                positions.add(i);
+            }
+        }
+        return positions;
+    }
+
+    public ArrayList<Letter> getCorrectGuesses() {
+        return correctGuesses;
+    }
+
+    public ArrayList<Letter> getIncorrectGuesses() {
+        return incorrectGuesses;
+    }
+
+    public boolean isDuplicateGuess(String letter) {
+        Optional<Letter> correctDuplicate = correctGuesses.stream().parallel().filter(correctGuess -> correctGuess.getLetter() == letter).findFirst();
+        Optional<Letter> incorrectDuplicate = incorrectGuesses.stream().parallel().filter(incorrectGuess -> incorrectGuess.getLetter() == letter).findFirst();
+
+        if (correctDuplicate.isPresent() || incorrectDuplicate.isPresent()) {
+            return true;
+        }
+        return false;
+    }
 }
