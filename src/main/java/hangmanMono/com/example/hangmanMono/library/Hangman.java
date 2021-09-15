@@ -33,20 +33,19 @@ public class Hangman {
         return isInProgress;
     }
 
-    public String guess(String letter) {
+    public GuessResult guess(String letter) {
         String upperCaseLetter = letter.toUpperCase();
-
 
         if (guesses.containsKey(upperCaseLetter)) {
             this.incorrectGuesses++;
             this.lives--;
-            return "duplicate";
+            return GuessResult.DUPLICATE;
         }
 
         if (letter.matches("[a-zA-Z]") && checkInWord(upperCaseLetter)) {
             guesses.put(upperCaseLetter, "correct");
             this.correctGuesses++;
-            return "Valid";
+            return GuessResult.CORRECT;
         } else {
             this.incorrectGuesses++;
             this.lives--;
@@ -58,7 +57,7 @@ public class Hangman {
             isInProgress = false;
         }
 
-        return "Invalid";
+        return GuessResult.INCORRECT;
     }
 
     public TreeMap<String, String> getGuesses() {

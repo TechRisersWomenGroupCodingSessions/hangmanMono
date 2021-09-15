@@ -41,15 +41,15 @@ class HangmanTest {
 
     @Test
     public void testGuessContainsInvalidResult() {
-        String valid = hangman.guess("2");
-        assertEquals("Invalid", valid);
+        GuessResult valid = hangman.guess("2");
+        assertEquals(GuessResult.INCORRECT, valid);
     }
 
     @Test
     public void testGuessContainsValidResult() {
         hangman = new Hangman("Hello");
-        String valid = hangman.guess("e");
-        assertEquals("Valid", valid);
+        GuessResult valid = hangman.guess("e");
+        assertEquals(GuessResult.CORRECT, valid);
     }
 
     @Test
@@ -72,8 +72,8 @@ class HangmanTest {
     public void testCheckIfLetterIsDuplicate(){
         hangman = new Hangman("Hello");
         hangman.guess("e");
-        String result = hangman.guess("e");
-        assertEquals( "duplicate", result);
+        GuessResult result = hangman.guess("e");
+        assertEquals( GuessResult.DUPLICATE, result);
     }
 
     @Test
@@ -90,16 +90,16 @@ class HangmanTest {
         String upperLetter = "E";
         String lowerLetter = "e";
         hangman.guess(upperLetter);
-        String result = hangman.guess(lowerLetter);
-        assertEquals("duplicate", result);
+        GuessResult result = hangman.guess(lowerLetter);
+        assertEquals(GuessResult.DUPLICATE, result);
     }
 
     @Test
     public void testGuessNotCaseSensitive(){
         hangman = new Hangman("Hello");
         String upperLetter = "E";
-        String result = hangman.guess(upperLetter);
-        assertEquals("Valid", result);
+        GuessResult result = hangman.guess(upperLetter);
+        assertEquals(GuessResult.CORRECT, result);
     }
 
     @Test

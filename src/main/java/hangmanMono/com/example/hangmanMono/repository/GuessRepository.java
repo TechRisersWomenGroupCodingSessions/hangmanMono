@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface GuessRepository extends JpaRepository<Guess, Long> {
 
-    @Query(value = "SELECT * FROM guess WHERE gameId LIKE ?1", nativeQuery=true)
+    @Query(value = "SELECT * FROM guess WHERE game_id=?1", nativeQuery=true)
     List<Guess> findAllByGameId(Long gameId);
 
 }

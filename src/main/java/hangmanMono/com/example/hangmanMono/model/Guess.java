@@ -17,16 +17,20 @@ public class Guess {
     )
     private Long guessId;
     private String letter;
+
+    @Transient
     private Long gameId;
 
     @ManyToOne(cascade = CascadeType.ALL) //one-to-one
     @JoinColumn(name = "GAME_ID")
-    @Transient
     private ResponseToGuess game;
 
     public Guess(String letter, Long gameId) {
         this.letter = letter;
         this.gameId = gameId;
+    }
+
+    public Guess() {
     }
 
     public Long getGameId() {

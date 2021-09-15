@@ -2,6 +2,7 @@ package hangmanMono.com.example.hangmanMono.services;
 
 import hangmanMono.com.example.hangmanMono.model.*;
 import hangmanMono.com.example.hangmanMono.repository.GameRepository;
+import hangmanMono.com.example.hangmanMono.repository.GuessRepository;
 import hangmanMono.com.example.hangmanMono.repository.PlayerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,6 +20,7 @@ public class GameServiceTest {
     SecretWordService mockedSecretWordService;
     PlayerRepository mockedPlayerRepository;
     GameRepository mockedGameRepository;
+    GuessRepository mockedGuessRepository;
     private ResponseToGuess responseToGuess;
     private String secretWord;
     private Optional<Player> optionalPlayer;
@@ -31,7 +33,8 @@ public class GameServiceTest {
         mockedGameRepository = mock(GameRepository.class);
         mockedPlayerRepository = mock(PlayerRepository.class);
         mockedSecretWordService = mock(SecretWordService.class);
-        gameService = new GameService(mockedGameRepository, mockedPlayerRepository, mockedSecretWordService);
+        mockedGuessRepository = mock(GuessRepository.class);
+        gameService = new GameService(mockedGameRepository, mockedPlayerRepository, mockedSecretWordService, mockedGuessRepository);
     }
 
     @Test

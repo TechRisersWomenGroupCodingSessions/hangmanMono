@@ -1,5 +1,6 @@
 package hangmanMono.com.example.hangmanMono.services;
 
+import hangmanMono.com.example.hangmanMono.library.GuessResult;
 import hangmanMono.com.example.hangmanMono.library.Hangman;
 import hangmanMono.com.example.hangmanMono.model.*;
 import hangmanMono.com.example.hangmanMono.repository.GameRepository;
@@ -33,35 +34,37 @@ public class GameService {
     public ResponseToGuess guess(Guess guess) {
         // TODO rename ResponseToGuess to guess?
         Optional<ResponseToGuess> gameOptional = gameRepository.findById(guess.getGameId());
-        System.out.println("****" + gameOptional.get());
 
         if (gameOptional.isEmpty()) {
             return null;
         }
 
         ResponseToGuess game = gameOptional.get();
-        //look up guesses by gameId > return list of guesses
-        List<Guess> guessList= guessRepository.findAllByGameId(game.getGameId());
 
+        guess.setGame(game);
+
+        //save the guess to database
+        guessRepository.save(guess);
+
+        List<Guess> guessList = guessRepository.findAllByGameId(game.getGameId());
+        System.out.println("****** guess list " + guessList);
 
         Hangman hangman = new Hangman(game.getSecretWord());
 
         // loop over the list of guesses, call hangman.guess
-
-        for(Guess item : guessList){
-            String resultOfGuess = hangman.guess(item.getLetter());
+        for (Guess item : guessList){
+            GuessResult resultOfGuess = hangman.guess(item.getLetter());
             System.out.println("****" + resultOfGuess);
         }
-        //save the guess to database
-        guessRepository.save(guess);
 
         int numberOfIncorrectGuesses = hangman.getLives();
         boolean isGameInProgress = hangman.isGameInProgress();
+
         // Continue adding on
         game.setGameInProgress(isGameInProgress);
         game.setLives(numberOfIncorrectGuesses);
-        return game;
 
+        return game;
     }
 
     public StartGameResponse startTheGame(StartGameRequest startGameRequest) {
