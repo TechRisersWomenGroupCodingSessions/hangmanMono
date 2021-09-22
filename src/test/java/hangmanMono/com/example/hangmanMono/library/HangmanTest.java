@@ -151,6 +151,47 @@ class HangmanTest {
     }
 
     @Test
+    public void testILostLongWord() {
+        hangman = new Hangman("background");
+        hangman.guess("z");
+        hangman.guess("y");
+        hangman.guess("q");
+        hangman.guess("e");
+        hangman.guess("e");
+        hangman.guess("q");
+        hangman.guess("z");
+        hangman.guess("y");
+        hangman.guess("z");
+        hangman.guess("z");
+        boolean gameWon = hangman.isGameWon();
+        int lives = hangman.getLives();
+        assertFalse(gameWon);
+        assertEquals( 0, lives);
+    }
+
+    //TODO: make another test to test the boundaries when its 0 live and -1 live
+
+    @Test
+    public void testLost11Guesses() {
+        hangman = new Hangman("background");
+        hangman.guess("z");
+        hangman.guess("y");
+        hangman.guess("q");
+        hangman.guess("e");
+        hangman.guess("e");
+        hangman.guess("q");
+        hangman.guess("z");
+        hangman.guess("y");
+        hangman.guess("z");
+        hangman.guess("z");
+        hangman.guess("z");
+        boolean gameWon = hangman.isGameWon();
+        int lives = hangman.getLives();
+        assertFalse(gameWon);
+        assertEquals( 0, lives);
+    }
+
+    @Test
     public void testIfIncorrectGuessesIsCorrectlyCounted() {
         hangman = new Hangman("background");
         hangman.guess("l");

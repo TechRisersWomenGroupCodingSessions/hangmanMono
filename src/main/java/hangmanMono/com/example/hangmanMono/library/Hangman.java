@@ -34,6 +34,11 @@ public class Hangman {
     }
 
     public GuessResult guess(String letter) {
+        //need to handle this boundary when no lives is left
+        if (this.lives == 0) {
+
+        }
+
         String upperCaseLetter = letter.toUpperCase();
 
         if (isDuplicateGuess(upperCaseLetter)) {
