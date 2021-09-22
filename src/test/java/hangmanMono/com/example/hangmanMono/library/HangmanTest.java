@@ -54,14 +54,6 @@ class HangmanTest {
     }
 
     @Test
-    public void testCheckIfGuessInIncorrectList(){
-        hangman = new Hangman("Hello");
-        hangman.guess("a");
-        TreeMap<String, String> guesses = hangman.getGuesses();
-        assertEquals("incorrect", guesses.get("A"));
-    }
-
-    @Test
     public void testCheckIfLetterIsInWord(){
         hangman = new Hangman("Hello");
         hangman.guess("e");
@@ -74,7 +66,7 @@ class HangmanTest {
         hangman = new Hangman("Hello");
         hangman.guess("e");
         GuessResult result = hangman.guess("e");
-        assertEquals( GuessResult.DUPLICATE, result);
+        assertEquals(GuessResult.DUPLICATE, result);
     }
 
     @Test
@@ -164,15 +156,6 @@ class HangmanTest {
         hangman.guess("l");
         hangman.guess("i");
         hangman.guess("s");
-        assertEquals(3, hangman.getNumberOfIncorrectGuesses());
-    }
-
-    @Test
-    public void testIfIncorrectGuessesIsDuplicated() {
-        hangman = new Hangman("background");
-        hangman.guess("l");
-        hangman.guess("x");
-        hangman.guess("x");
         assertEquals(3, hangman.getNumberOfIncorrectGuesses());
     }
 

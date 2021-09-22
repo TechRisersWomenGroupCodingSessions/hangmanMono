@@ -4,7 +4,6 @@ import hangmanMono.com.example.hangmanMono.model.GuessResult;
 import hangmanMono.com.example.hangmanMono.model.Letter;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 public class Hangman {
     private final String secretWord;
@@ -30,7 +29,6 @@ public class Hangman {
         return secretWord;
     }
 
-
     public boolean isGameInProgress() {
         return isInProgress;
     }
@@ -38,26 +36,19 @@ public class Hangman {
     public GuessResult guess(String letter) {
         String upperCaseLetter = letter.toUpperCase();
 
-        // fix method to calc duplicates
         if (isDuplicateGuess(upperCaseLetter)) {
-            //this.incorrectGuesses++;
             this.lives--;
             return GuessResult.DUPLICATE;
         }
 
         if (letter.matches("[a-zA-Z]") && checkInWord(upperCaseLetter)) {
-            // guesses.put(upperCaseLetter, "correct");
             ArrayList<Integer> positions = calculatePositions(upperCaseLetter);
             correctGuesses.add(new Letter(upperCaseLetter, positions));
-            //this.correctGuesses++;
-
             return GuessResult.CORRECT;
         } else {
             ArrayList<Integer> positions = calculatePositions(upperCaseLetter);
             incorrectGuesses.add(new Letter(upperCaseLetter, positions));
-            //this.incorrectGuesses++;
             this.lives--;
-            // guesses.put(upperCaseLetter, "incorrect");
         }
 
         if (!isGameWon() && lives == 0) {
@@ -111,8 +102,8 @@ public class Hangman {
     }
 
     public boolean isDuplicateGuess(String letter) {
-        Optional<Letter> correctDuplicate = correctGuesses.stream().parallel().filter(correctGuess -> correctGuess.getLetter() == letter).findFirst();
-        Optional<Letter> incorrectDuplicate = incorrectGuesses.stream().parallel().filter(incorrectGuess -> incorrectGuess.getLetter() == letter).findFirst();
+        Optional<Letter> correctDuplicate = correctGuesses.stream().parallel().filter(correctGuess -> correctGuess.getLetter().equals(letter)).findFirst();
+        Optional<Letter> incorrectDuplicate = incorrectGuesses.stream().parallel().filter(incorrectGuess -> incorrectGuess.getLetter().equals(letter)).findFirst();
 
         if (correctDuplicate.isPresent() || incorrectDuplicate.isPresent()) {
             return true;
