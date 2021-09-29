@@ -243,4 +243,23 @@ class HangmanTest {
         assertFalse(hangman.isGameWon());
         assertFalse(hangman.isGameInProgress());
     }
+
+    @Test
+    public void testGameShouldAlwaysHave0LivesWhenGameIsLost() {
+        hangman = new Hangman("car");
+        hangman.guess("b");
+        hangman.guess("b");
+        hangman.guess("b");
+        hangman.guess("b");
+        hangman.guess("b");
+        hangman.guess("b");
+        hangman.guess("b");
+        hangman.guess("b");
+        hangman.guess("b"); //9th guess
+        //10th guess
+        hangman.guess("b");
+        hangman.guess("b"); //11th guess
+
+        assertEquals(0, hangman.getLives());
+    }
 }

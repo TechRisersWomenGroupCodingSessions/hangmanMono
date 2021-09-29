@@ -35,21 +35,27 @@ public class Hangman {
 
     public GuessResult guess(String letter) {
         GuessResult guessResult;
+
         String upperCaseLetter = letter.toUpperCase();
 
-        if (isDuplicateGuess(upperCaseLetter)) {
-            this.lives--;
-            guessResult = GuessResult.DUPLICATE;
-        } else if (letter.matches("[a-zA-Z]") && checkInWord(upperCaseLetter)) {
-            ArrayList<Integer> positions = calculatePositions(upperCaseLetter);
-            correctGuesses.add(new Letter(upperCaseLetter, positions));
-            guessResult = GuessResult.CORRECT;
+        if (lives > 0) {
+            if (isDuplicateGuess(upperCaseLetter)) {
+                this.lives--;
+                guessResult = GuessResult.DUPLICATE;
+            } else if (letter.matches("[a-zA-Z]") && checkInWord(upperCaseLetter)) {
+                ArrayList<Integer> positions = calculatePositions(upperCaseLetter);
+                correctGuesses.add(new Letter(upperCaseLetter, positions));
+                guessResult = GuessResult.CORRECT;
+            } else {
+                ArrayList<Integer> positions = calculatePositions(upperCaseLetter);
+                incorrectGuesses.add(new Letter(upperCaseLetter, positions));
+                this.lives--;
+                guessResult = GuessResult.INCORRECT;
+            }
         } else {
-            ArrayList<Integer> positions = calculatePositions(upperCaseLetter);
-            incorrectGuesses.add(new Letter(upperCaseLetter, positions));
-            this.lives--;
-            guessResult = GuessResult.INCORRECT;
+            guessResult = GuessResult.GAMEOVER;
         }
+
 
         if (!isGameWon() && lives == 0) {
             gameIsWon = false;
