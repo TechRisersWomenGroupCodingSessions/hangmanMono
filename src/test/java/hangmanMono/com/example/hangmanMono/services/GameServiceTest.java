@@ -72,11 +72,14 @@ public class GameServiceTest {
 
         when(mockedGameRepository.findById(any())).thenReturn(gameOptional);
 
+        //find a way when GuessRepository is queried, return this guess
         Guess guess = new Guess("H", 1L);
 
         ResponseToGuess response = gameService.guess(guess);
         ArrayList<Letter> incorrectLetters = response.getIncorrectLetters();
         ArrayList<Letter> correctLetters = response.getCorrectLetters();
+
+        //TODO: find away to do without mock? look closely about the mock, can be quite confusing
 
         assertEquals(9, response.getLives());
         assertTrue(response.isGameInProgress());
