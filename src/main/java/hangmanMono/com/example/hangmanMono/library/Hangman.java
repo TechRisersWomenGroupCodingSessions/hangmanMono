@@ -34,26 +34,21 @@ public class Hangman {
     }
 
     public GuessResult guess(String letter) {
-        //need to handle this boundary when no lives is left
-        if (this.lives == 0) {
-
-        }
-
+        GuessResult guessResult;
         String upperCaseLetter = letter.toUpperCase();
 
         if (isDuplicateGuess(upperCaseLetter)) {
             this.lives--;
-            return GuessResult.DUPLICATE;
-        }
-
-        if (letter.matches("[a-zA-Z]") && checkInWord(upperCaseLetter)) {
+            guessResult = GuessResult.DUPLICATE;
+        } else if (letter.matches("[a-zA-Z]") && checkInWord(upperCaseLetter)) {
             ArrayList<Integer> positions = calculatePositions(upperCaseLetter);
             correctGuesses.add(new Letter(upperCaseLetter, positions));
-            return GuessResult.CORRECT;
+            guessResult = GuessResult.CORRECT;
         } else {
             ArrayList<Integer> positions = calculatePositions(upperCaseLetter);
             incorrectGuesses.add(new Letter(upperCaseLetter, positions));
             this.lives--;
+            guessResult = GuessResult.INCORRECT;
         }
 
         if (!isGameWon() && lives == 0) {
@@ -61,7 +56,7 @@ public class Hangman {
             isInProgress = false;
         }
 
-        return GuessResult.INCORRECT;
+        return guessResult;
     }
 
     public TreeMap<String, String> getGuesses() {

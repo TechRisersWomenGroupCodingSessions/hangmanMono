@@ -62,6 +62,8 @@ public class GameService {
         ArrayList<Letter> correctGuesses = hangman.getCorrectGuesses();
         ArrayList<Letter> incorrectGuesses = hangman.getIncorrectGuesses();
 
+        System.out.println("game in progress: " + isGameInProgress);
+
         game.setGameInProgress(isGameInProgress);
         game.setLives(numberOfIncorrectGuesses);
         game.setCorrectLetters(correctGuesses);

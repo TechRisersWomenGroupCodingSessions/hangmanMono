@@ -221,4 +221,26 @@ class HangmanTest {
         assertFalse(hangman.isGameWon());
         assertFalse(hangman.isGameInProgress());
     }
+
+    @Test
+    public void testGameShouldHaveLostWhenGuessedWithDuplicates() {
+        hangman = new Hangman("car");
+        hangman.guess("b");
+        hangman.guess("b");
+        hangman.guess("b");
+        hangman.guess("b");
+        hangman.guess("b");
+        hangman.guess("b");
+        hangman.guess("b");
+        hangman.guess("b");
+        hangman.guess("b"); //9th guess
+
+        assertTrue(hangman.isGameInProgress());
+
+        //10th guess
+        hangman.guess("b");
+
+        assertFalse(hangman.isGameWon());
+        assertFalse(hangman.isGameInProgress());
+    }
 }
