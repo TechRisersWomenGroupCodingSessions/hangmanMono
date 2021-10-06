@@ -1,7 +1,7 @@
 package hangmanMono.com.example.hangmanMono.api;
 
+import hangmanMono.com.example.hangmanMono.model.Game;
 import hangmanMono.com.example.hangmanMono.model.Guess;
-import hangmanMono.com.example.hangmanMono.model.ResponseToGuess;
 import hangmanMono.com.example.hangmanMono.model.StartGameRequest;
 import hangmanMono.com.example.hangmanMono.model.StartGameResponse;
 import hangmanMono.com.example.hangmanMono.services.GameService;
@@ -28,7 +28,7 @@ public class GameController {
     }
 
     @PostMapping("/guess")
-    public ResponseToGuess guess (@RequestBody Guess guess) {
+    public Game guess (@RequestBody Guess guess) {
         return gameService.guess(guess);
     }
 }

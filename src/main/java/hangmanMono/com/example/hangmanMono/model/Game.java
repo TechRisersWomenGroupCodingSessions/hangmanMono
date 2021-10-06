@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 @Entity(name = "GAME")
 @Table
-public class ResponseToGuess {
+public class Game {
     // TODO decide whether we need the numberOfIncorrectGuesses here because we also have it in Hangman
     @Id
     @SequenceGenerator(
@@ -34,16 +34,16 @@ public class ResponseToGuess {
     @Transient
     private ArrayList<Letter> correctLetters;
 
-    public ResponseToGuess() {
+    public Game() {
     }
 
-    public ResponseToGuess(String secretWord, Player player, boolean gameInProgress){
+    public Game(String secretWord, Player player, boolean gameInProgress){
         this.secretWord = secretWord;
         this.player = player;
         this.gameInProgress = gameInProgress;
     }
 
-    public ResponseToGuess(int lives, boolean gameInProgress, ArrayList<Letter> incorrectLetters, ArrayList<Letter> correctLetters) {
+    public Game(int lives, boolean gameInProgress, ArrayList<Letter> incorrectLetters, ArrayList<Letter> correctLetters) {
         this.lives = lives;
         this.gameInProgress = gameInProgress;
         this.incorrectLetters = incorrectLetters;

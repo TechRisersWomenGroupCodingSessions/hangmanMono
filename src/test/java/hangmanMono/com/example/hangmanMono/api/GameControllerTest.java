@@ -1,7 +1,7 @@
 package hangmanMono.com.example.hangmanMono.api;
 
+import hangmanMono.com.example.hangmanMono.model.Game;
 import hangmanMono.com.example.hangmanMono.model.Guess;
-import hangmanMono.com.example.hangmanMono.model.ResponseToGuess;
 import hangmanMono.com.example.hangmanMono.model.StartGameRequest;
 import hangmanMono.com.example.hangmanMono.model.StartGameResponse;
 import org.junit.Assert;
@@ -51,7 +51,7 @@ public class GameControllerTest {
         this.uri = new URI(baseUrl);
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<Guess> request = new HttpEntity<>(guess, headers);
-        ResponseEntity<ResponseToGuess> responseToGuessResponseEntity = this.restTemplate.postForEntity(uri, request, ResponseToGuess.class);
+        ResponseEntity<Game> responseToGuessResponseEntity = this.restTemplate.postForEntity(uri, request, Game.class);
 
         Assert.assertEquals(200, responseToGuessResponseEntity.getStatusCodeValue());
     }

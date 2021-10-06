@@ -23,7 +23,7 @@ public class Guess {
 
     @ManyToOne(cascade = CascadeType.ALL) //one-to-one
     @JoinColumn(name = "GAME_ID")
-    private ResponseToGuess game;
+    private Game game;
 
     public Guess(String letter, Long gameId) {
         this.letter = letter;
@@ -49,11 +49,11 @@ public class Guess {
         this.letter = letter;
     }
 
-    public ResponseToGuess getGame() {
+    public Game getGame() {
         return game;
     }
 
-    public void setGame(ResponseToGuess game) {
+    public void setGame(Game game) {
         this.game = game;
     }
 }

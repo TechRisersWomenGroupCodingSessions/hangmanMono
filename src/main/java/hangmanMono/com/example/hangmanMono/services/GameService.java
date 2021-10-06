@@ -31,15 +31,15 @@ public class GameService {
         this.guessRepository = guessRepository;
     }
 
-    public ResponseToGuess guess(Guess guess) {
-        // TODO rename ResponseToGuess to guess?
-        Optional<ResponseToGuess> gameOptional = gameRepository.findById(guess.getGameId());
+    public Game guess(Guess guess) {
+        // TODO rename Game to guess?
+        Optional<Game> gameOptional = gameRepository.findById(guess.getGameId());
 
         if (gameOptional.isEmpty()) {
             return null;
         }
 
-        ResponseToGuess game = gameOptional.get();
+        Game game = gameOptional.get();
 
         guess.setGame(game);
 
@@ -84,10 +84,10 @@ public class GameService {
         Optional<Player> player = playerRepository.findById(playerId);
 
         if (player.isPresent()) {
-            ResponseToGuess responseToGuess = new ResponseToGuess(secretWord, player.get(), gameInProgress);
+            Game game = new Game(secretWord, player.get(), gameInProgress);
 
             try {
-                ResponseToGuess savedGame = gameRepository.save(responseToGuess);
+                Game savedGame = gameRepository.save(game);
                 System.out.println(savedGame);
                 return new StartGameResponse(secretWord.length(), savedGame.getGameId());
             } catch (NullPointerException e) {
