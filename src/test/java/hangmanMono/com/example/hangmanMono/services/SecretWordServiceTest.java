@@ -1,8 +1,6 @@
 package hangmanMono.com.example.hangmanMono.services;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
+import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SecretWordServiceTest {
@@ -15,17 +13,19 @@ public class SecretWordServiceTest {
 
     @Test
     public void testIfHangmanHasSecretWord() {
-        assertFalse(secretWordService.getSecretWord().isEmpty());
+        secretWordService.randomizeSecretWord();
+        assertNotNull(secretWordService.getSecretWord());
     }
 
     @Test
     public void testIfSecretWordIsAllCaps() {
+        secretWordService.randomizeSecretWord();
         String word = secretWordService.getSecretWord();
         Integer counter = 0;
 
-        for (char letter : word.toCharArray()){
-            if (Character.isUpperCase(letter)){
-                counter ++;
+        for (char letter : word.toCharArray()) {
+            if (Character.isUpperCase(letter)) {
+                counter++;
             }
         }
         assertEquals(word.length(), counter);
