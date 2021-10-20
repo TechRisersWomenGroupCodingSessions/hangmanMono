@@ -1,5 +1,6 @@
 package hangmanMono.com.example.hangmanMono.services;
 
+import hangmanMono.com.example.hangmanMono.dao.GameDao;
 import hangmanMono.com.example.hangmanMono.dao.GuessDao;
 import hangmanMono.com.example.hangmanMono.model.GuessResult;
 import hangmanMono.com.example.hangmanMono.library.Hangman;
@@ -33,22 +34,24 @@ public class GameService {
     }
 
     public Game guess(Guess guess) {
-        Optional<Game> gameOptional = gameRepository.findById(guess.getGameId());
+        Optional<GameDao> gameOptional = gameRepository.findById(guess.getGameId());
 
         if (gameOptional.isEmpty()) {
             return null;
         }
 
-        Game game = gameOptional.get();
+        GameDao gameDao = gameOptional.get();
+
+        //TODO Implement bounded context
 
         // refactor
         GuessDao guessDao = new GuessDao(guess.getLetter());
 
-        guessDao.setGame(game);
+        guessDao.setGame(gameDao);
         // save the guess to database
         guessRepository.save(guessDao);
 
-        List<GuessDao> guessList = guessRepository.findAllByGameId(game.getGameId());
+        List<GuessDao> guessList = guessRepository.findAllByGameId(gameDao.getGameId());
 
         Hangman hangman = new Hangman(game.getSecretWord());
 
@@ -86,10 +89,10 @@ public class GameService {
         Optional<Player> player = playerRepository.findById(playerId);
 
         if (player.isPresent()) {
-            Game game = new Game(secretWord, player.get(), gameInProgress);
+            GameDao gameDao = new GameDao(secretWord, player.get(), gameInProgress);
 
             try {
-                Game savedGame = gameRepository.save(game);
+                GameDao savedGame = gameRepository.save(gameDao);
                 System.out.println(savedGame);
                 return new StartGameResponse(secretWord.length(), savedGame.getGameId());
             } catch (NullPointerException e) {

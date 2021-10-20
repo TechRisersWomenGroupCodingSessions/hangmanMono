@@ -28,7 +28,7 @@ public class GameController {
     }
 
     @PostMapping("/guess")
-    public Game guess (@RequestBody Guess guess) {
+    public Game game(@RequestBody Guess guess) {
         return gameService.guess(guess);
     }
 }

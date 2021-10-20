@@ -20,9 +20,9 @@ public class GuessDao {
     private Long guessId;
     private String letter;
 
-    @ManyToOne(cascade = CascadeType.ALL) //one-to-one
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "GAME_ID")
-    private Game game;
+    private GameDao gameDao;
 
     public GuessDao(String letter) {
         this.letter = letter;
@@ -37,7 +37,7 @@ public class GuessDao {
     }
 
 
-    public void setGame(Game game) {
-        this.game = game;
+    public void setGame(GameDao gameDao) {
+        this.gameDao = gameDao;
     }
 }
