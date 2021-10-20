@@ -1,16 +1,14 @@
 package hangmanMono.com.example.hangmanMono.repository;
 
-import hangmanMono.com.example.hangmanMono.model.Guess;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import hangmanMono.com.example.hangmanMono.dao.GuessDao;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 @Repository
-public interface GuessRepository extends JpaRepository<Guess, Long> {
+public interface GuessRepository extends JpaRepository<GuessDao, Long> {
 
     @Query(value = "SELECT * FROM guess WHERE game_id=?1", nativeQuery=true)
-    List<Guess> findAllByGameId(Long gameId);
+    List<GuessDao> findAllByGameId(Long gameId);
 
 }

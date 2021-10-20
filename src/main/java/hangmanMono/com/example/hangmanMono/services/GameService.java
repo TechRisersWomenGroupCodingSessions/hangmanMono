@@ -1,5 +1,6 @@
 package hangmanMono.com.example.hangmanMono.services;
 
+import hangmanMono.com.example.hangmanMono.dao.GuessDao;
 import hangmanMono.com.example.hangmanMono.model.GuessResult;
 import hangmanMono.com.example.hangmanMono.library.Hangman;
 import hangmanMono.com.example.hangmanMono.model.*;
@@ -32,7 +33,6 @@ public class GameService {
     }
 
     public Game guess(Guess guess) {
-        // TODO rename Game to guess?
         Optional<Game> gameOptional = gameRepository.findById(guess.getGameId());
 
         if (gameOptional.isEmpty()) {
@@ -41,18 +41,20 @@ public class GameService {
 
         Game game = gameOptional.get();
 
-        guess.setGame(game);
+        // refactor
+        GuessDao guessDao = new GuessDao(guess.getLetter());
 
-        //save the guess to database
-        guessRepository.save(guess);
+        guessDao.setGame(game);
+        // save the guess to database
+        guessRepository.save(guessDao);
 
-        List<Guess> guessList = guessRepository.findAllByGameId(game.getGameId());
-        System.out.println("****** guess list " + guessList);
+        List<GuessDao> guessList = guessRepository.findAllByGameId(game.getGameId());
 
         Hangman hangman = new Hangman(game.getSecretWord());
 
         // loop over the list of guesses, call hangman.guess
-        for (Guess item : guessList){
+        // refactor ??
+        for (GuessDao item : guessList){
             GuessResult resultOfGuess = hangman.guess(item.getLetter());
             System.out.println("****" + resultOfGuess);
         }
