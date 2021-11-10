@@ -145,3 +145,7 @@ TODO NEXT:
 * refactor SecretWordServiceTest & GameserviceTest
 
 
+
+Database Diagram
+https://dbdiagram.io/d/618c17f802cf5d186b5007c7
+
