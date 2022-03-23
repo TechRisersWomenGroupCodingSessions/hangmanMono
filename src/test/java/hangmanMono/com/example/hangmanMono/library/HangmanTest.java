@@ -103,13 +103,6 @@ class HangmanTest {
     }
 
     @Test
-    public void testIWonIFSecretWordIsEmpty() {
-        hangman = new Hangman("");
-        boolean gameWon = hangman.isGameWon();
-        assertTrue(gameWon);
-    }
-
-    @Test
     public void testIWonWithKale() {
         hangman = new Hangman("kale");
         hangman.guess("k");
@@ -118,6 +111,7 @@ class HangmanTest {
         hangman.guess("e");
         boolean state = hangman.isGameWon();
         assertTrue(state);
+        assertFalse(hangman.isGameInProgress());
     }
 
     @Test
@@ -129,6 +123,7 @@ class HangmanTest {
         hangman.guess("o");
         boolean state = hangman.isGameWon();
         assertTrue(state);
+        assertFalse(hangman.isGameInProgress());
     }
 
     @Test
@@ -148,6 +143,7 @@ class HangmanTest {
         int lives = hangman.getLives();
         assertTrue(gameWon);
         assertEquals( 10, lives);
+        assertFalse(hangman.isGameInProgress());
     }
 
     @Test

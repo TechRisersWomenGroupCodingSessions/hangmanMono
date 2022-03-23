@@ -103,3 +103,10 @@ public class GameService {
         }
     }
 }
+
+//
+// 1) start game -> player Id, game in progress flag
+// 2) get secret word
+// 3) get player
+// 4) save new game
+// 5) save initial lives

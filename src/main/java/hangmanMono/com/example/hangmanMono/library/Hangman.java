@@ -56,8 +56,13 @@ public class Hangman {
             guessResult = GuessResult.GAMEOVER;
         }
 
+        boolean gameWon = isGameWon();
 
-        if (!isGameWon() && lives == 0) {
+        if (gameWon) {
+            isInProgress = false;
+            gameIsWon = true;
+        }
+        else if (lives == 0) {
             gameIsWon = false;
             isInProgress = false;
         }
